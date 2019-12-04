@@ -46,7 +46,7 @@ void pp_yyerror(const char* msg);
 %type <plval> pattern_options
 %type <plval> pattern_options2
 
-%nonassoc '|'
+%left '|'
 %left '{' '[' '(' ATOMIC
 
 %%
