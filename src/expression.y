@@ -68,15 +68,15 @@ int pow(int a, int b){
 %type <ival> nexp
 
 %left ';'
+%left OR
+%left AND
 %right NOT
-%nonassoc AND
-%nonassoc OR
-%left SEQ SNE
 %left EQ NE GE GT LE LT
-%right'^'
+%left SEQ SNE
+%left '+' '-'
+%left '*'
 %left '/' '%'
-%nonassoc '*'
-%nonassoc '+' '-'
+%right '^'
 
 %%
 axiom : program {parsedExpression = *$1;
