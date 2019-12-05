@@ -62,7 +62,7 @@ Las expresiones TASCHE son un lenguaje de scripting minimalista. Sirven para man
 - **Expresiones numéricas**. Devuelven cadenas de texto númericas.
     Devuelven el número resultado de las operaciones.
     - Números naturales: `1`, `2`, `3`,`42`, etc.
-    - Variables precedidas por almohadilla: `#edad`, `#numero_entrada`. Si la variable contiene texto o está vacía, dará un error.
+    - Variables precedidas por almohadilla: `#edad`, `#numero_entrada`. Si la variable contiene texto o está vacía, devuelve `0`.
     - Operaciones aritméticas: `+`, `-`, `*`, `/`, `^`(potencia), `%`(módulo).
     - Cualquier otra expresión contenida entre paréntesis `()`.
 - **Expresiones textuales**. Devuelven cadenas de texto.
@@ -91,7 +91,7 @@ Las expresiones TASCHE son un lenguaje de scripting minimalista. Sirven para man
 
 #### Expresiones como condiciones
 Tanto en las operaciones lógicas como en la evaluación de las condiciones para las respuestas, el valor lógico de una expresión es verdadero si y solo si el valor que devuelve no es una cadena vacía y no tiene valor numérico 0.
-`0`, `000`, `''''`, `1 && 2 -ne 2`, `@variable_indefinida` se evalúan como _falso_
+`0`, `000`, `''''`, `1 && 2 -ne 2`, `@variable_indefinida`, `#variable_con_texto` se evalúan como _falso_
 `22`, `''azul''`, `''ab''==''ab'' || 0`, `@variable_no_nula` se evalúan como _verdadero_.
 
 #### Expresiones dentro de patrones
