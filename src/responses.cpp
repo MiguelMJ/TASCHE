@@ -28,6 +28,11 @@ using namespace std;
 using namespace rapidjson;
 
 namespace cpt{
+    void myassert(bool ass, const std::string& msg="Failed assert"){
+        if(!ass){
+            throw std::runtime_error(msg);
+        }
+    }
     pattern init;
     std::vector<response> responses;
     std::vector<response> defresponses;
@@ -39,6 +44,12 @@ namespace cpt{
             Document d;
             d.ParseStream(isw);
             fin.close();
+            if(d.HasParseError()){
+                throw std::runtime_error(rapidjson::GetParseError_En(d.GetParseError()));
+            }
+            myassert(d.IsObject(),"Expected object as main structure");
+            myassert(d.HasMember("init") && d["init"].IsString(), "Expected main attribute \"init\" to be a string");
+            myassert(d.HasMember("responses") && d["responses"].IsArray(), "Expected main attribute \"responses\" to be an array");
             init = parsePattern(d["init"].GetString());
             Value r = d["responses"].GetArray();
             for(auto it = r.Begin(); it != r.End(); it++){
@@ -65,24 +76,14 @@ namespace cpt{
                     r.output = parsePattern((*it)["output"].GetString());
                     target->push_back(r);
                 }
-                /*
-                response r;
-                r.condition = (*it)["condition"].GetString();
-                r.output = parsePattern((*it)["output"].GetString());
-                if(it->HasMember("input")){
-                    r.input = parsePattern((*it)["input"].GetString());
-                    responses.push_back(r);
-                }else{
-                    defresponses.push_back(r);
-                } 
-                */
             }
         }catch(std::exception& e){
             #ifdef DEBUG
             cerr << "\e[38;2;250;0;0m" << e.what() << "\e[0m" << endl;
             #else
-            cerr << e.what() << endl;
+            cerr << "Error loading JSON file" << endl;
             #endif
+            throw std::runtime_error(e.what());
         }
     }
     bool b(const std::string& s){
@@ -98,25 +99,31 @@ namespace cpt{
         bool matched = false;
         std::string res;
         for(auto r : responses){
-            if(r.input->match(str) && b(parseExpression(r.condition))){
+            if(r.input->match(str) && b(parseExpression(r.condition))){ // here the state is modified
                 matched = true;
-                res = r.output->compose();
+                res = r.output->compose(); // also here
+                addLocalChanges(); // we save the changes for the end of the response
                 if(!res.empty()){
                     cout << res << endl;
                 }
+            }else{
+                discardLocalChanges(); // else, we reset the local table
             }
         }
         if(!matched){
             for(auto r : defresponses){
-                if(b(parseExpression(r.condition))){
-                    res = r.output->compose();
+                if(b(parseExpression(r.condition))){ // here the state is modified
+                    res = r.output->compose(); // also here
+                    addLocalChanges(); // we save the changes for the end of the response
                     if(!res.empty()){
                         cout << res << endl;
                     }
+                }else{
+                    discardLocalChanges(); // else, we reset the local table
                 }
             }
         }
-        updateSymbolTable();
+        commitChanges(); // we add to the global table the changes we wanted
     }
     void launch(){
         symbol_table["_TA_RUNNING_"] = "1";

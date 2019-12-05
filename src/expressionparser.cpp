@@ -98,8 +98,8 @@ int pow(int a, int b){
 }
 std::string mostRecentSymbol(const std::string& id){
     std::string value;
-    if(cpt::changes_table.find(id) != cpt::changes_table.end()){
-        value = cpt::changes_table[id];
+    if(cpt::local_table.find(id) != cpt::local_table.end()){
+        value = cpt::local_table[id];
     }else{
         value = cpt::symbol_table[id];
     }
@@ -1347,7 +1347,7 @@ yyreduce:
 
   case 4:
 #line 98 "src/expression.y" /* yacc.c:1646  */
-    {  cpt::changes_table[*(yyvsp[-2].strval)] = *(yyvsp[0].strval);
+    {  cpt::local_table[*(yyvsp[-2].strval)] = *(yyvsp[0].strval);
                             (yyval.strval) = new std::string(); delete (yyvsp[-2].strval); delete (yyvsp[0].strval);
                             }
 #line 1354 "src/expressionparser.cpp" /* yacc.c:1646  */
@@ -1357,7 +1357,7 @@ yyreduce:
 #line 101 "src/expression.y" /* yacc.c:1646  */
     {  int i = std::stoi(*(yyvsp[0].strval));
                             auto v = std::to_string(i);
-                            cpt::changes_table[*(yyvsp[-2].strval)] = v;
+                            cpt::local_table[*(yyvsp[-2].strval)] = v;
                             (yyval.strval) = new std::string(); delete (yyvsp[-2].strval); delete (yyvsp[0].strval);
                             }
 #line 1364 "src/expressionparser.cpp" /* yacc.c:1646  */

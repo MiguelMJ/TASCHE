@@ -32,6 +32,7 @@ namespace cpt{
     }
     std::map<std::string, std::string> symbol_table;
     std::map<std::string, std::string> changes_table;
+    std::map<std::string, std::string> local_table;
     bool st_pattern::match(const std::string& str){
         int pos = 0;
         return match(str,pos) && pos == str.size(); 
@@ -77,7 +78,7 @@ namespace cpt{
         return matched;
     }
     bool st_pattern_variable::match(const std::string& str, int& pos) const{
-        std::string value = symbol_table[str];
+        std::string value = local_table[str];
         bool matched = compare_case_insensitive(value, str.substr(pos,value.size()));
         if(matched){
             pos += value.size();
@@ -87,7 +88,7 @@ namespace cpt{
     bool st_pattern_dynamic::match(const std::string& str, int& pos) const{
         bool matched;
         if(right == nullptr){
-            symbol_table[id] = str.substr(pos);
+            local_table[id] = str.substr(pos);
             pos = str.size();
             matched = true;
         }else{
@@ -99,7 +100,7 @@ namespace cpt{
                 pos = size-trynum;
                 matched = right->match(str,pos);
                 if(matched){
-                    symbol_table[id] = str.substr(oldpos,pos-oldpos-trynum);
+                    local_table[id] = str.substr(oldpos,pos-oldpos-trynum);
                 }else{
                     pos = oldpos;
                     trynum++;
@@ -125,10 +126,10 @@ namespace cpt{
         return options[rand() % options.size()]->compose();
     }
     std::string st_pattern_variable::compose () const{
-        return symbol_table[frag];
+        return local_table[frag];
     }
     std::string st_pattern_dynamic::compose () const{
-        std::stringstream ss(symbol_table[id]);
+        std::stringstream ss(local_table[id]);
         if(right)
             ss << right->compose();
         return ss.str();
@@ -172,9 +173,19 @@ namespace cpt{
     std::forward_list<std::string> allCompositions(pattern){
         //TODO
     }
-    void updateSymbolTable(){
+    void addLocalChanges(){
+        for(auto ch: local_table){
+            changes_table[ch.first] = ch.second;
+        }
+        local_table.clear();
+    }
+    void commitChanges(){
         for(auto ch: changes_table){
             symbol_table[ch.first] = ch.second;
         }
+        changes_table.clear();
+    }
+    void discardLocalChanges(){
+        local_table.clear();
     }
 }

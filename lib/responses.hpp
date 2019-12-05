@@ -28,6 +28,7 @@
 #include "pattern.hpp"
 #include "expression.hpp"
 #include "rapidjson/document.h"
+#include "rapidjson/error/en.h"
 #include "rapidjson/istreamwrapper.h"
 #include <iostream>
 #include <fstream>

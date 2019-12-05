@@ -55,8 +55,8 @@ int pow(int a, int b){
 }
 std::string mostRecentSymbol(const std::string& id){
     std::string value;
-    if(cpt::changes_table.find(id) != cpt::changes_table.end()){
-        value = cpt::changes_table[id];
+    if(cpt::local_table.find(id) != cpt::local_table.end()){
+        value = cpt::local_table[id];
     }else{
         value = cpt::symbol_table[id];
     }
@@ -95,12 +95,12 @@ axiom : program {parsedExpression = *$1;
                 }
       ;
 program : exp            {  $$ = $1;  }
-        | STRVAR '=' exp {  cpt::changes_table[*$1] = *$3;
+        | STRVAR '=' exp {  cpt::local_table[*$1] = *$3;
                             $$ = new std::string(); delete $1; delete $3;
                             }
         | NUMVAR '=' exp {  int i = std::stoi(*$3);
                             auto v = std::to_string(i);
-                            cpt::changes_table[*$1] = v;
+                            cpt::local_table[*$1] = v;
                             $$ = new std::string(); delete $1; delete $3;
                             }
         | program ';' program {$$ = $3; delete $1;}
