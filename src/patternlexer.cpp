@@ -557,14 +557,6 @@ pattern parsedPattern;
 #define STRING 1
 #define SCR 2
 
-#ifndef YY_NO_UNISTD_H
-/* Special case for "unistd.h", since it is non-ANSI. We include it way
- * down here because we want the user's section 1 to have been scanned first.
- * The user has a chance to override it with an option.
- */
-#include <unistd.h>
-#endif
-
 #ifndef YY_EXTRA_TYPE
 #define YY_EXTRA_TYPE void *
 #endif
@@ -771,14 +763,14 @@ YY_DECL
 		}
 
 	{
-#line 48 "src/pattern.l"
+#line 49 "src/pattern.l"
 
 
 
 std::stringstream token;
 
 
-#line 782 "src/patternlexer.cpp"
+#line 774 "src/patternlexer.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -837,42 +829,42 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 55 "src/pattern.l"
+#line 56 "src/pattern.l"
 {token << '\b';}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 56 "src/pattern.l"
+#line 57 "src/pattern.l"
 {token << '\f';}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 57 "src/pattern.l"
+#line 58 "src/pattern.l"
 {token << '\n';}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 58 "src/pattern.l"
+#line 59 "src/pattern.l"
 {token << '\r';}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 59 "src/pattern.l"
+#line 60 "src/pattern.l"
 {token << '\t';}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 60 "src/pattern.l"
+#line 61 "src/pattern.l"
 {token << '\"';}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 61 "src/pattern.l"
+#line 62 "src/pattern.l"
 {token << '\\';}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 62 "src/pattern.l"
+#line 63 "src/pattern.l"
 {BEGIN(INITIAL);
              auto aux = new struct st_pattern_plain;
              aux -> frag = token.str();
@@ -883,19 +875,19 @@ YY_RULE_SETUP
 case 9:
 /* rule 9 can match eol */
 YY_RULE_SETUP
-#line 68 "src/pattern.l"
+#line 69 "src/pattern.l"
 {token << pp_yytext;}
 	YY_BREAK
 
 
 case 10:
 YY_RULE_SETUP
-#line 71 "src/pattern.l"
+#line 72 "src/pattern.l"
 {token << "}";}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 72 "src/pattern.l"
+#line 73 "src/pattern.l"
 {BEGIN(INITIAL);
           strcpy(pp_yylval.bigstr,token.str().c_str());
           return SCRIPT;
@@ -904,20 +896,20 @@ YY_RULE_SETUP
 case 12:
 /* rule 12 can match eol */
 YY_RULE_SETUP
-#line 76 "src/pattern.l"
+#line 77 "src/pattern.l"
 {token << pp_yytext;}
 	YY_BREAK
 
 case 13:
 YY_RULE_SETUP
-#line 78 "src/pattern.l"
+#line 79 "src/pattern.l"
 {token.str("");
       BEGIN(SCR);
      }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 81 "src/pattern.l"
+#line 82 "src/pattern.l"
 {
         token.str("");
         BEGIN(STRING);
@@ -926,7 +918,7 @@ YY_RULE_SETUP
 case 15:
 /* rule 15 can match eol */
 YY_RULE_SETUP
-#line 85 "src/pattern.l"
+#line 86 "src/pattern.l"
 {
                 auto aux = new struct st_pattern_plain;
                 aux -> frag = pp_yytext;
@@ -936,7 +928,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 91 "src/pattern.l"
+#line 92 "src/pattern.l"
 {
             auto aux = new struct st_pattern_variable;
             aux -> frag = pp_yytext;
@@ -947,7 +939,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 98 "src/pattern.l"
+#line 99 "src/pattern.l"
 {
             std::string aux(pp_yytext);
             aux = aux.substr(1);
@@ -957,15 +949,15 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 104 "src/pattern.l"
+#line 105 "src/pattern.l"
 {return pp_yytext[0];}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 107 "src/pattern.l"
+#line 108 "src/pattern.l"
 ECHO;
 	YY_BREAK
-#line 969 "src/patternlexer.cpp"
+#line 961 "src/patternlexer.cpp"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(STRING):
 case YY_STATE_EOF(SCR):
@@ -1545,8 +1537,8 @@ static void pp_yy_load_buffer_state  (void)
         b->yy_bs_column = 0;
     }
 
-        b->yy_is_interactive = file ? (isatty( fileno(file) ) > 0) : 0;
-    
+	b->yy_is_interactive = 1;
+
 	errno = oerrno;
 }
 
@@ -1968,7 +1960,7 @@ void pp_yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 107 "src/pattern.l"
+#line 108 "src/pattern.l"
 
 
 void pp_set_input_string(const char* in) {

@@ -559,14 +559,6 @@ std::string parsedExpression;
 #define INITIAL 0
 #define STRING 1
 
-#ifndef YY_NO_UNISTD_H
-/* Special case for "unistd.h", since it is non-ANSI. We include it way
- * down here because we want the user's section 1 to have been scanned first.
- * The user has a chance to override it with an option.
- */
-#include <unistd.h>
-#endif
-
 #ifndef YY_EXTRA_TYPE
 #define YY_EXTRA_TYPE void *
 #endif
@@ -773,14 +765,14 @@ YY_DECL
 		}
 
 	{
-#line 45 "src/expression.l"
+#line 46 "src/expression.l"
 
 
 
 std::stringstream token;
 
 
-#line 784 "src/expressionlexer.cpp"
+#line 776 "src/expressionlexer.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -839,47 +831,47 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 52 "src/expression.l"
+#line 53 "src/expression.l"
 {token<<'\b';}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 53 "src/expression.l"
+#line 54 "src/expression.l"
 {token<<'\f';}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 54 "src/expression.l"
+#line 55 "src/expression.l"
 {token<<'\n';}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 55 "src/expression.l"
+#line 56 "src/expression.l"
 {token<<'\r';}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 56 "src/expression.l"
+#line 57 "src/expression.l"
 {token<<'\t';}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 57 "src/expression.l"
+#line 58 "src/expression.l"
 {token<<'\"';}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 58 "src/expression.l"
+#line 59 "src/expression.l"
 {token<<'\\';}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 59 "src/expression.l"
+#line 60 "src/expression.l"
 {token<<'\'';}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 60 "src/expression.l"
+#line 61 "src/expression.l"
 {BEGIN(INITIAL);
             auto ret = new std::string(token.str());
             token.str("");
@@ -890,13 +882,13 @@ YY_RULE_SETUP
 case 10:
 /* rule 10 can match eol */
 YY_RULE_SETUP
-#line 66 "src/expression.l"
+#line 67 "src/expression.l"
 {token << ee_yytext;}
 	YY_BREAK
 
 case 11:
 YY_RULE_SETUP
-#line 68 "src/expression.l"
+#line 69 "src/expression.l"
 {
       token.str("");
       BEGIN(STRING);
@@ -904,14 +896,14 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 73 "src/expression.l"
+#line 74 "src/expression.l"
 {ee_yylval.ival = atoi(ee_yytext);
          return NUMBER;
         }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 76 "src/expression.l"
+#line 77 "src/expression.l"
 {
             auto ret = new std::string(ee_yytext);
             *ret = ret->substr(1);
@@ -921,7 +913,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 82 "src/expression.l"
+#line 83 "src/expression.l"
 {
             auto ret = new std::string(ee_yytext);
             *ret = ret->substr(1);
@@ -931,76 +923,76 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 88 "src/expression.l"
+#line 89 "src/expression.l"
 {return ee_yytext[0];}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 89 "src/expression.l"
+#line 90 "src/expression.l"
 {return NOT;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 90 "src/expression.l"
+#line 91 "src/expression.l"
 {return AND;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 91 "src/expression.l"
+#line 92 "src/expression.l"
 {return OR;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 92 "src/expression.l"
+#line 93 "src/expression.l"
 {return SEQ;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 93 "src/expression.l"
+#line 94 "src/expression.l"
 {return SNE;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 94 "src/expression.l"
+#line 95 "src/expression.l"
 {return EQ;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 95 "src/expression.l"
+#line 96 "src/expression.l"
 {return NE;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 96 "src/expression.l"
+#line 97 "src/expression.l"
 {return LT;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 97 "src/expression.l"
+#line 98 "src/expression.l"
 {return GT;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 98 "src/expression.l"
+#line 99 "src/expression.l"
 {return LE;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 99 "src/expression.l"
+#line 100 "src/expression.l"
 {return GT;}
 	YY_BREAK
 case 27:
 /* rule 27 can match eol */
 YY_RULE_SETUP
-#line 101 "src/expression.l"
+#line 102 "src/expression.l"
 {}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 103 "src/expression.l"
+#line 104 "src/expression.l"
 ECHO;
 	YY_BREAK
-#line 1004 "src/expressionlexer.cpp"
+#line 996 "src/expressionlexer.cpp"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(STRING):
 	yyterminate();
@@ -1579,8 +1571,8 @@ static void ee_yy_load_buffer_state  (void)
         b->yy_bs_column = 0;
     }
 
-        b->yy_is_interactive = file ? (isatty( fileno(file) ) > 0) : 0;
-    
+	b->yy_is_interactive = 1;
+
 	errno = oerrno;
 }
 
@@ -2002,7 +1994,7 @@ void ee_yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 103 "src/expression.l"
+#line 104 "src/expression.l"
 
 
 void ee_set_input_string(const char* in) {

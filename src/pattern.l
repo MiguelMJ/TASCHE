@@ -36,6 +36,7 @@ extern YY_BUFFER_STATE yy_scan_string(char * str);
 extern void yy_delete_buffer(YY_BUFFER_STATE buffer);
 pattern parsedPattern;
 %}
+%option always-interactive
 %option noyywrap
 %option prefix="pp_yy"
 %x STRING
