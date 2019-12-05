@@ -2,7 +2,7 @@
 Text Adventure and Simple CHatbot Engine
 ***
 ##### Tabla de Contenidos
-- [Introducción](#introduccion)
+- [Introducción](#introducción)
 - [Instalación y dependencias](#instalación-y-dependencias)
 - [Patrones](#patrones)
 - [Expresiones](#expresiones)
