@@ -515,8 +515,8 @@ int ee_yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *ee_yytext;
-#line 1 "src/expression.l"
-#line 2 "src/expression.l"
+#line 1 "lang/expression.flex"
+#line 2 "lang/expression.flex"
 /*
  * MIT License
  * 
@@ -765,7 +765,7 @@ YY_DECL
 		}
 
 	{
-#line 46 "src/expression.l"
+#line 46 "lang/expression.flex"
 
 
 
@@ -831,47 +831,47 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 53 "src/expression.l"
+#line 53 "lang/expression.flex"
 {token<<'\b';}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 54 "src/expression.l"
+#line 54 "lang/expression.flex"
 {token<<'\f';}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 55 "src/expression.l"
+#line 55 "lang/expression.flex"
 {token<<'\n';}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 56 "src/expression.l"
+#line 56 "lang/expression.flex"
 {token<<'\r';}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 57 "src/expression.l"
+#line 57 "lang/expression.flex"
 {token<<'\t';}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 58 "src/expression.l"
+#line 58 "lang/expression.flex"
 {token<<'\"';}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 59 "src/expression.l"
+#line 59 "lang/expression.flex"
 {token<<'\\';}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 60 "src/expression.l"
+#line 60 "lang/expression.flex"
 {token<<'\'';}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 61 "src/expression.l"
+#line 61 "lang/expression.flex"
 {BEGIN(INITIAL);
             auto ret = new std::string(token.str());
             token.str("");
@@ -882,13 +882,13 @@ YY_RULE_SETUP
 case 10:
 /* rule 10 can match eol */
 YY_RULE_SETUP
-#line 67 "src/expression.l"
+#line 67 "lang/expression.flex"
 {token << ee_yytext;}
 	YY_BREAK
 
 case 11:
 YY_RULE_SETUP
-#line 69 "src/expression.l"
+#line 69 "lang/expression.flex"
 {
       token.str("");
       BEGIN(STRING);
@@ -896,14 +896,14 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 74 "src/expression.l"
+#line 74 "lang/expression.flex"
 {ee_yylval.ival = atoi(ee_yytext);
          return NUMBER;
         }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 77 "src/expression.l"
+#line 77 "lang/expression.flex"
 {
             auto ret = new std::string(ee_yytext);
             *ret = ret->substr(1);
@@ -913,7 +913,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 83 "src/expression.l"
+#line 83 "lang/expression.flex"
 {
             auto ret = new std::string(ee_yytext);
             *ret = ret->substr(1);
@@ -923,73 +923,73 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 89 "src/expression.l"
+#line 89 "lang/expression.flex"
 {return ee_yytext[0];}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 90 "src/expression.l"
+#line 90 "lang/expression.flex"
 {return NOT;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 91 "src/expression.l"
+#line 91 "lang/expression.flex"
 {return AND;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 92 "src/expression.l"
+#line 92 "lang/expression.flex"
 {return OR;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 93 "src/expression.l"
+#line 93 "lang/expression.flex"
 {return SEQ;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 94 "src/expression.l"
+#line 94 "lang/expression.flex"
 {return SNE;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 95 "src/expression.l"
+#line 95 "lang/expression.flex"
 {return EQ;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 96 "src/expression.l"
+#line 96 "lang/expression.flex"
 {return NE;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 97 "src/expression.l"
+#line 97 "lang/expression.flex"
 {return LT;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 98 "src/expression.l"
+#line 98 "lang/expression.flex"
 {return GT;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 99 "src/expression.l"
+#line 99 "lang/expression.flex"
 {return LE;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 100 "src/expression.l"
+#line 100 "lang/expression.flex"
 {return GT;}
 	YY_BREAK
 case 27:
 /* rule 27 can match eol */
 YY_RULE_SETUP
-#line 102 "src/expression.l"
+#line 102 "lang/expression.flex"
 {}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 104 "src/expression.l"
+#line 104 "lang/expression.flex"
 ECHO;
 	YY_BREAK
 #line 996 "src/expressionlexer.cpp"
@@ -1994,7 +1994,7 @@ void ee_yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 104 "src/expression.l"
+#line 104 "lang/expression.flex"
 
 
 void ee_set_input_string(const char* in) {

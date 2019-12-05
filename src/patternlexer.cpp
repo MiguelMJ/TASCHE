@@ -511,8 +511,8 @@ int pp_yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *pp_yytext;
-#line 1 "src/pattern.l"
-#line 2 "src/pattern.l"
+#line 1 "lang/pattern.flex"
+#line 2 "lang/pattern.flex"
 /*
  * MIT License
  * 
@@ -763,7 +763,7 @@ YY_DECL
 		}
 
 	{
-#line 49 "src/pattern.l"
+#line 49 "lang/pattern.flex"
 
 
 
@@ -829,42 +829,42 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 56 "src/pattern.l"
+#line 56 "lang/pattern.flex"
 {token << '\b';}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 57 "src/pattern.l"
+#line 57 "lang/pattern.flex"
 {token << '\f';}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 58 "src/pattern.l"
+#line 58 "lang/pattern.flex"
 {token << '\n';}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 59 "src/pattern.l"
+#line 59 "lang/pattern.flex"
 {token << '\r';}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 60 "src/pattern.l"
+#line 60 "lang/pattern.flex"
 {token << '\t';}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 61 "src/pattern.l"
+#line 61 "lang/pattern.flex"
 {token << '\"';}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 62 "src/pattern.l"
+#line 62 "lang/pattern.flex"
 {token << '\\';}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 63 "src/pattern.l"
+#line 63 "lang/pattern.flex"
 {BEGIN(INITIAL);
              auto aux = new struct st_pattern_plain;
              aux -> frag = token.str();
@@ -875,19 +875,19 @@ YY_RULE_SETUP
 case 9:
 /* rule 9 can match eol */
 YY_RULE_SETUP
-#line 69 "src/pattern.l"
+#line 69 "lang/pattern.flex"
 {token << pp_yytext;}
 	YY_BREAK
 
 
 case 10:
 YY_RULE_SETUP
-#line 72 "src/pattern.l"
+#line 72 "lang/pattern.flex"
 {token << "}";}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 73 "src/pattern.l"
+#line 73 "lang/pattern.flex"
 {BEGIN(INITIAL);
           strcpy(pp_yylval.bigstr,token.str().c_str());
           return SCRIPT;
@@ -896,20 +896,20 @@ YY_RULE_SETUP
 case 12:
 /* rule 12 can match eol */
 YY_RULE_SETUP
-#line 77 "src/pattern.l"
+#line 77 "lang/pattern.flex"
 {token << pp_yytext;}
 	YY_BREAK
 
 case 13:
 YY_RULE_SETUP
-#line 79 "src/pattern.l"
+#line 79 "lang/pattern.flex"
 {token.str("");
       BEGIN(SCR);
      }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 82 "src/pattern.l"
+#line 82 "lang/pattern.flex"
 {
         token.str("");
         BEGIN(STRING);
@@ -918,7 +918,7 @@ YY_RULE_SETUP
 case 15:
 /* rule 15 can match eol */
 YY_RULE_SETUP
-#line 86 "src/pattern.l"
+#line 86 "lang/pattern.flex"
 {
                 auto aux = new struct st_pattern_plain;
                 aux -> frag = pp_yytext;
@@ -928,7 +928,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 92 "src/pattern.l"
+#line 92 "lang/pattern.flex"
 {
             auto aux = new struct st_pattern_variable;
             aux -> frag = pp_yytext;
@@ -939,7 +939,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 99 "src/pattern.l"
+#line 99 "lang/pattern.flex"
 {
             std::string aux(pp_yytext);
             aux = aux.substr(1);
@@ -949,12 +949,12 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 105 "src/pattern.l"
+#line 105 "lang/pattern.flex"
 {return pp_yytext[0];}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 108 "src/pattern.l"
+#line 108 "lang/pattern.flex"
 ECHO;
 	YY_BREAK
 #line 961 "src/patternlexer.cpp"
@@ -1960,7 +1960,7 @@ void pp_yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 108 "src/pattern.l"
+#line 108 "lang/pattern.flex"
 
 
 void pp_set_input_string(const char* in) {
