@@ -527,9 +527,9 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    93,    93,    97,    98,   101,   106,   108,   109,   110,
-     111,   115,   119,   123,   127,   129,   130,   131,   132,   133,
-     134,   135,   136,   137,   138,   139,   140,   141,   142,   143
+       0,    93,    93,    97,    98,   101,   113,   115,   116,   117,
+     118,   122,   126,   130,   134,   136,   137,   145,   146,   147,
+     148,   149,   150,   151,   152,   153,   154,   155,   156,   157
 };
 #endif
 
@@ -1355,172 +1355,193 @@ yyreduce:
 
   case 5:
 #line 101 "src/expression.y" /* yacc.c:1646  */
-    {  int i = std::stoi(*(yyvsp[0].strval));
-                            auto v = std::to_string(i);
+    {  
+                            int i;
+                            std::string v;
+                            try{
+                                i = std::stoi(*(yyvsp[0].strval));
+                                v = std::to_string(i);
+                            }catch(std::invalid_argument& e){
+                                v="0";
+                            }
                             cpt::local_table[*(yyvsp[-2].strval)] = v;
                             (yyval.strval) = new std::string(); delete (yyvsp[-2].strval); delete (yyvsp[0].strval);
                             }
-#line 1364 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1371 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 106 "src/expression.y" /* yacc.c:1646  */
+#line 113 "src/expression.y" /* yacc.c:1646  */
     {(yyval.strval) = (yyvsp[0].strval); delete (yyvsp[-2].strval);}
-#line 1370 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1377 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 108 "src/expression.y" /* yacc.c:1646  */
+#line 115 "src/expression.y" /* yacc.c:1646  */
     {(yyval.strval) = (yyvsp[0].strval);}
-#line 1376 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1383 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 109 "src/expression.y" /* yacc.c:1646  */
+#line 116 "src/expression.y" /* yacc.c:1646  */
     {(yyval.strval) = new std::string(std::to_string((yyvsp[0].ival)));}
-#line 1382 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1389 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 110 "src/expression.y" /* yacc.c:1646  */
+#line 117 "src/expression.y" /* yacc.c:1646  */
     {(yyval.strval) = new std::string(s(!b(*(yyvsp[0].strval)))); delete (yyvsp[0].strval);}
-#line 1388 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1395 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 111 "src/expression.y" /* yacc.c:1646  */
+#line 118 "src/expression.y" /* yacc.c:1646  */
     {
                    (yyval.strval) = new std::string(s(b(*(yyvsp[-2].strval)) && b(*(yyvsp[0].strval))));
                    delete (yyvsp[-2].strval); delete (yyvsp[0].strval);
                    }
-#line 1397 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1404 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 115 "src/expression.y" /* yacc.c:1646  */
+#line 122 "src/expression.y" /* yacc.c:1646  */
     {
                    (yyval.strval) = new std::string(s(b(*(yyvsp[-2].strval)) || b(*(yyvsp[0].strval))));
                    delete (yyvsp[-2].strval); delete (yyvsp[0].strval);
                    }
-#line 1406 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1413 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 119 "src/expression.y" /* yacc.c:1646  */
+#line 126 "src/expression.y" /* yacc.c:1646  */
     {
                    (yyval.strval) = new std::string(s(*(yyvsp[-2].strval) == *(yyvsp[0].strval)));
                    delete (yyvsp[-2].strval); delete (yyvsp[0].strval);
                    }
-#line 1415 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1422 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 123 "src/expression.y" /* yacc.c:1646  */
+#line 130 "src/expression.y" /* yacc.c:1646  */
     {
                    (yyval.strval) = new std::string(s(*(yyvsp[-2].strval) != *(yyvsp[0].strval)));
                    delete (yyvsp[-2].strval); delete (yyvsp[0].strval);
                   }
-#line 1424 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1431 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 127 "src/expression.y" /* yacc.c:1646  */
+#line 134 "src/expression.y" /* yacc.c:1646  */
     {(yyval.strval) = new std::string(mostRecentSymbol(*(yyvsp[0].strval))); delete (yyvsp[0].strval);}
-#line 1430 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1437 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 129 "src/expression.y" /* yacc.c:1646  */
+#line 136 "src/expression.y" /* yacc.c:1646  */
     {(yyval.ival) = (yyvsp[0].ival);}
-#line 1436 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1443 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 130 "src/expression.y" /* yacc.c:1646  */
-    {(yyval.ival) = std::stoi(*(yyvsp[-1].strval));delete (yyvsp[-1].strval);}
-#line 1442 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 137 "src/expression.y" /* yacc.c:1646  */
+    {
+                    try{
+                        (yyval.ival) = std::stoi(*(yyvsp[-1].strval));
+                    }catch(std::invalid_argument& e){
+                        (yyval.ival) = 0;
+                    }
+                    delete (yyvsp[-1].strval);
+                    }
+#line 1456 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 131 "src/expression.y" /* yacc.c:1646  */
+#line 145 "src/expression.y" /* yacc.c:1646  */
     {(yyval.ival) = (yyvsp[-2].ival) + (yyvsp[0].ival);}
-#line 1448 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1462 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 132 "src/expression.y" /* yacc.c:1646  */
+#line 146 "src/expression.y" /* yacc.c:1646  */
     {(yyval.ival) = (yyvsp[-2].ival) - (yyvsp[0].ival);}
-#line 1454 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1468 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 133 "src/expression.y" /* yacc.c:1646  */
+#line 147 "src/expression.y" /* yacc.c:1646  */
     {(yyval.ival) = (yyvsp[-2].ival) * (yyvsp[0].ival);}
-#line 1460 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1474 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 134 "src/expression.y" /* yacc.c:1646  */
+#line 148 "src/expression.y" /* yacc.c:1646  */
     {(yyval.ival) = (yyvsp[-2].ival) / (yyvsp[0].ival);}
-#line 1466 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1480 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 135 "src/expression.y" /* yacc.c:1646  */
+#line 149 "src/expression.y" /* yacc.c:1646  */
     {(yyval.ival) = (yyvsp[-2].ival) % (yyvsp[0].ival);}
-#line 1472 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1486 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 136 "src/expression.y" /* yacc.c:1646  */
+#line 150 "src/expression.y" /* yacc.c:1646  */
     {(yyval.ival) = pow((yyvsp[-2].ival),(yyvsp[0].ival));}
-#line 1478 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1492 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 137 "src/expression.y" /* yacc.c:1646  */
+#line 151 "src/expression.y" /* yacc.c:1646  */
     {(yyval.ival) = (yyvsp[-2].ival) == (yyvsp[0].ival) ? 1 : 0;}
-#line 1484 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1498 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 138 "src/expression.y" /* yacc.c:1646  */
+#line 152 "src/expression.y" /* yacc.c:1646  */
     {(yyval.ival) = (yyvsp[-2].ival) != (yyvsp[0].ival) ? 1 : 0;}
-#line 1490 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1504 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 139 "src/expression.y" /* yacc.c:1646  */
+#line 153 "src/expression.y" /* yacc.c:1646  */
     {(yyval.ival) = (yyvsp[-2].ival) >= (yyvsp[0].ival) ? 1 : 0;}
-#line 1496 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1510 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 140 "src/expression.y" /* yacc.c:1646  */
+#line 154 "src/expression.y" /* yacc.c:1646  */
     {(yyval.ival) = (yyvsp[-2].ival)  > (yyvsp[0].ival) ? 1 : 0;}
-#line 1502 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1516 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 141 "src/expression.y" /* yacc.c:1646  */
+#line 155 "src/expression.y" /* yacc.c:1646  */
     {(yyval.ival) = (yyvsp[-2].ival) <= (yyvsp[0].ival) ? 1 : 0;}
-#line 1508 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1522 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 142 "src/expression.y" /* yacc.c:1646  */
+#line 156 "src/expression.y" /* yacc.c:1646  */
     {(yyval.ival) = (yyvsp[-2].ival)  < (yyvsp[0].ival) ? 1 : 0;}
-#line 1514 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1528 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 143 "src/expression.y" /* yacc.c:1646  */
-    {(yyval.ival) = std::stoi(mostRecentSymbol(*(yyvsp[0].strval))); delete (yyvsp[0].strval);}
-#line 1520 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 157 "src/expression.y" /* yacc.c:1646  */
+    {
+                    try{
+                        (yyval.ival) = std::stoi(mostRecentSymbol(*(yyvsp[0].strval)));
+                    }catch(std::invalid_argument& e){
+                        (yyval.ival) = 0;
+                    }
+                    delete (yyvsp[0].strval);
+                    }
+#line 1541 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 1524 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1545 "src/expressionparser.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1748,7 +1769,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 146 "src/expression.y" /* yacc.c:1906  */
+#line 167 "src/expression.y" /* yacc.c:1906  */
 
 void ee_yyerror(const char* msg){
     throw std::runtime_error("expression parser:"+std::string(msg));

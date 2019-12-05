@@ -126,7 +126,7 @@ namespace cpt{
         return options[rand() % options.size()]->compose();
     }
     std::string st_pattern_variable::compose () const{
-        return local_table[frag];
+        return local_table.find(frag) != local_table.end() ? local_table[frag] : symbol_table[frag];
     }
     std::string st_pattern_dynamic::compose () const{
         std::stringstream ss(local_table[id]);
