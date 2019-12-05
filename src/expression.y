@@ -30,6 +30,7 @@ extern int ee_yylex();
 void ee_yyerror(const char* msg);
 }
 %{
+#include "expression.hpp"
 #include <string>
 #include <exception>
 bool b(const std::string& s){
@@ -51,6 +52,15 @@ int pow(int a, int b){
         b--;
     }
     return ret;
+}
+std::string mostRecentSymbol(const std::string& id){
+    std::string value;
+    if(cpt::changes_table.find(id) != cpt::changes_table.end()){
+        value = cpt::changes_table[id];
+    }else{
+        value = cpt::symbol_table[id];
+    }
+    return value;
 }
 %}
 %define api.prefix {ee_yy}
@@ -77,19 +87,21 @@ int pow(int a, int b){
 %left '*'
 %left '/' '%'
 %right '^'
+%left '('
 
 %%
 axiom : program {parsedExpression = *$1;
                  delete $1;
                 }
       ;
-program : exp            {$$ = $1;}
+program : exp            {  $$ = $1;  }
         | STRVAR '=' exp {  cpt::changes_table[*$1] = *$3;
-                            $$ = $3; delete $1;
+                            $$ = new std::string(); delete $1; delete $3;
                             }
-        | NUMVAR '=' exp {  auto v = std::to_string(std::stoi(*$3));
+        | NUMVAR '=' exp {  int i = std::stoi(*$3);
+                            auto v = std::to_string(i);
                             cpt::changes_table[*$1] = v;
-                            $$ = $3; delete $1;
+                            $$ = new std::string(); delete $1; delete $3;
                             }
         | program ';' program {$$ = $3; delete $1;}
         ;
@@ -112,9 +124,10 @@ exp : VALUE {$$ = $1;}
                    $$ = new std::string(s(*$1 != *$3));
                    delete $1; delete $3;
                   }
-    | STRVAR      {$$ = new std::string(cpt::symbol_table[*$1]); delete $1;}
+    | STRVAR      {$$ = new std::string(mostRecentSymbol(*$1)); delete $1;}
     ;
 nexp: NUMBER        {$$ = $1;}
+    | '(' exp ')'   {$$ = std::stoi(*$2);delete $2;}
     | nexp '+' nexp {$$ = $1 + $3;}
     | nexp '-' nexp {$$ = $1 - $3;}
     | nexp '*' nexp {$$ = $1 * $3;}
@@ -127,7 +140,7 @@ nexp: NUMBER        {$$ = $1;}
     | nexp GT nexp  {$$ = $1  > $3 ? 1 : 0;}
     | nexp LE nexp  {$$ = $1 <= $3 ? 1 : 0;}
     | nexp LT nexp  {$$ = $1  < $3 ? 1 : 0;}
-    | NUMVAR        {$$ = std::stoi(cpt::symbol_table[*$1]); delete $1;}
+    | NUMVAR        {$$ = std::stoi(mostRecentSymbol(*$1)); delete $1;}
     ;
 
 %%

@@ -110,7 +110,7 @@ void ee_yyerror(const char* msg);
 
 union EE_YYSTYPE
 {
-#line 57 "src/expression.y" /* yacc.c:1909  */
+#line 67 "src/expression.y" /* yacc.c:1909  */
 
     int ival;
     std::string* strval;
