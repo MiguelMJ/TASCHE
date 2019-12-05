@@ -2,13 +2,12 @@
 Text Adventure and Simple CHatbot Engine
 ***
 ##### Tabla de Contenidos
-- [Introducción](#Introduccion)
-- [Patrones](#Patrones)
-- [Expresiones](#Expresiones)
-    - [Expresiones como condiciones](#Condiciones)
-    - [Expresiones dentro de patrones](#Scripts)
-
-<a name="Introduccion"/>
+- [Introducción](#introduccion)
+- [Patrones](#patrones)
+- [Expresiones](#expresiones)
+    - [Expresiones como condiciones](#expresiones-como-condiciones)
+    - [Expresiones dentro de patrones](#expresiones-dentro-de-patrones)
+- [Fichero de especificación](#fichero-de-especificación)
 
 ### Introducción
 TASCHE es una herramienta para especificar aplicaciones basadas en texto que persigue flexibilidad en el reconocimiento de la entrada y variedad en las respuestas. Para ello , utiliza unos _patrones_ que se explicaran en profundidad más abajo.
@@ -20,8 +19,6 @@ El comportamiento básico de un programa TASCHE es el siguiente:
 4. Para cada condición cumplida, se compone la respuesta a partir del patrón de salida.
 
 Las condiciones en TASCHE se especifican con _expresiones_ en un lenguaje de scripting minimalista. Este mismo lenguaje se utiliza para modificar el estado interno del programa, desde los _patrones_ de salida.
-
-<a name="Patrones"/>
 
 ### Patrones
 Los patrones TASCHE sirven tanto para reconocer cadenas de texto como para generarlas. Los tipos de patrones son los siguientes:
@@ -54,8 +51,6 @@ Los patrones pueden combinarse entre sí, por ejemplo:
 - `Hola, (amigo[ mío]|$nombre), qué tal[ estás[ (hoy|este día)]][?]`
 - `Qué (tiempo|clima) hará en >lugar (dentro de|en) >num días[?]`
 
-<a name="Expresiones"/>
-
 ### Expresiones
 Las expresiones TASCHE son un lenguaje de scripting minimalista. Sirven para manipular el estado interno del programa. Siempre devuelven cadenas de texto.
 Especifican las condiciones que se evalúan para responder a una entrada. El valor lógico de 
@@ -86,19 +81,13 @@ Especifican las condiciones que se evalúan para responder a una entrada. El val
     - `@var =` asigna cualquier expresión a `var`.
     - `#var =` asigna sólo una expresión numérica a `var`.
 
-<a name="Condiciones"/>
-
 #### Expresiones como condiciones
 Tanto en las operaciones lógicas como en la evaluación de las condiciones para las respuestas, el valor lógico de una expresión es verdadero si y solo si el valor que devuelve no es una cadena vacía y no tiene valor numérico 0.
 `0`, `000`, `''''`, `1 && 2 -ne 2`, `@variable_indefinida` se evalúan como _falso_
 `22`, `''azul''`, `''ab''==''ab'' || 0`, `@variable_no_nula` se evalúan como _verdadero_.
 
-<a name="Scripts"/>
-
 #### Expresiones dentro de patrones
 
-
-<a name="Especificacion"/>
 
 ### Fichero de especificación
 TASCHE lee un fichero JSON (usando [rapidjson](https://github.com/Tencent/rapidjson)) que debe tener la siguiente estructura:
