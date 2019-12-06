@@ -7,7 +7,6 @@ Text Adventure and Simple CHatbot Engine
 - [Patrones](#patrones)
 - [Expresiones](#expresiones)
     - [Expresiones como condiciones](#expresiones-como-condiciones)
-    - [Expresiones dentro de patrones](#expresiones-dentro-de-patrones)
 - [Fichero de especificación](#fichero-de-especificación)
 - [Utilizar la librería](#utilizar-la-librería)
 - [Licencia](#licencia)
@@ -23,8 +22,9 @@ El comportamiento básico de un programa TASCHE es el siguiente:
 
 Las condiciones en TASCHE se especifican con _expresiones_ en un lenguaje de scripting minimalista. Este mismo lenguaje se utiliza para modificar el estado interno del programa, desde los _patrones_ de salida.
 
-### Instalación y dependencias
-
+### Compilar el proyecto
+El código fuente de TASCHE está autocontenido. Los scripts necesarios para la compilación en Windows y en Linux están incluidos en la raíz del proyecto. El código fuente de otros proyectos FLOSS está contenido en el directorio [thirdparty](thirdparty) y sus respectivas licencias se encuentran junto a la misma de TASCHE en el fichero [LICENSE](LICENSE).
+Por lo tanto, lo único necesario para compilar TASCHE es abrir la terminal, ir al directorio raíz del proyecto y allí ejecutar `./compile.sh` en Linux o `compile.bat` en Windows.
 ***
 ### Patrones
 Los patrones TASCHE sirven tanto para reconocer cadenas de texto como para generarlas. Los tipos de patrones son los siguientes:
@@ -66,7 +66,7 @@ Las expresiones TASCHE son un lenguaje de scripting minimalista. Sirven para man
     - Operaciones aritméticas: `+`, `-`, `*`, `/`, `^`(potencia), `%`(módulo).
     - Cualquier otra expresión contenida entre paréntesis `()`.
 - **Expresiones textuales**. Devuelven cadenas de texto.
-    - Cadenas entre dobles comillas simples: `''texto''` (en lugar de `"texto"`).
+    - Cadenas entre dobles comillas simples: `''texto''` (y no `"texto"`).
     - Variables precedidas por arroba: `@nombre`, `@lugar`.
 - **Comparaciones numéricas**. Devuelven `1` ó `0`.
     - `-eq`: igual
@@ -94,19 +94,38 @@ Tanto en las operaciones lógicas como en la evaluación de las condiciones para
 `0`, `000`, `''''`, `1 && 2 -ne 2`, `@variable_indefinida`, `#variable_con_texto` se evalúan como _falso_
 `22`, `''azul''`, `''ab''==''ab'' || 0`, `@variable_no_nula` se evalúan como _verdadero_.
 
-#### Expresiones dentro de patrones
-
-
 ### Fichero de especificación
-TASCHE lee un fichero JSON (usando [rapidjson](https://github.com/Tencent/rapidjson)) que debe tener la siguiente estructura:
-
+TASCHE lee un fichero JSON que debe tener la siguiente estructura:
 ```JSON
 {
-"init":"expresion",
-"responses": [  ]
+"init":"expresión",
+"responses":[{
+                "input":"patrón",
+                "responses":[{
+                                "condition":"expresion",
+                                "output":"patrón"
+                            },{
+                                "condition":"expresion",
+                                "output":"patrón"
+                            }]
+             },{
+                "input":"patrón",
+                "condition":"expresión",
+                "output":"patrón"
+             },{
+                "condition":"expresión",
+                "output":"patrón"
+             }]
 }
 ```
+- `init` contiene la expresión que se evalúa al iniciar la aplicación. Aquí deben asignarse todos los valores iniciales.
+- `responses` contiene la lista de respuestas, que pueden especificarse mediante tres tipos posibles de objetos:
+    - Un par de `input` y `responses`, donde éste último contiene una lista de pares `condition` y `output`. El patrón de entrada coincide, se generarán respuestas con los patrones de salida donde la condición se evalúe como verdadera.
+    - Una terna `input`, `condition`, `output` equivalente al caso anterior en el que la lista de respuestas tenga un solo elemento.
+    - Un par de `condition`, `output`. Estas son las respuestas _por defecto_. Se evalúan sólo cuando una entrada no ha coincidido con ningun patrón de la lista.
 ***
 ### Utilizar la librería
-
+To Do
+### Utilizar la modificar el proyecto
+To Do
 ### Licencia
