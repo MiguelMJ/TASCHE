@@ -3,13 +3,17 @@ Text Adventure and Simple CHatbot Engine
 ***
 ##### Tabla de Contenidos
 - [Introducción](#introducción)
-- [Instalación y dependencias](#instalación-y-dependencias)
-- [Patrones](#patrones)
-- [Expresiones](#expresiones)
-    - [Expresiones como condiciones](#expresiones-como-condiciones)
-- [Fichero de especificación](#fichero-de-especificación)
-- [Utilizar la librería](#utilizar-la-librería)
-- [Licencia](#licencia)
+- [Compilar TASCHE](#compilar-tasche)
+- [Uso](#uso)
+    - [Patrones](#patrones)
+    - [Expresiones](#expresiones)
+        - [Expresiones como condiciones](#expresiones-como-condiciones)
+    - [Fichero de especificación](#fichero-de-especificación)
+    - [Consejos y trucos](#consejos-y-trucos)
+- [Desarrollo](#Desarrollo)
+    - [Utilizar la librería](#utilizar-la-librería)
+    - [Modificar los parsers](#modificar-los-parsers)
+    - [Funcionalidades por hacer](#funcionalidades-por-hacer)
 
 ### Introducción
 TASCHE es una herramienta para especificar aplicaciones basadas en texto que persigue flexibilidad en el reconocimiento de la entrada y variedad en las respuestas. Para ello , utiliza unos _patrones_ que se explicaran en profundidad más abajo.
@@ -22,10 +26,11 @@ El comportamiento básico de un programa TASCHE es el siguiente:
 
 Las condiciones en TASCHE se especifican con _expresiones_ en un lenguaje de scripting minimalista. Este mismo lenguaje se utiliza para modificar el estado interno del programa, desde los _patrones_ de salida.
 
-### Compilar el proyecto
+### Compilar TASCHE
 El código fuente de TASCHE está autocontenido. Los scripts necesarios para la compilación en Windows y en Linux están incluidos en la raíz del proyecto. El código fuente de otros proyectos FLOSS está contenido en el directorio [thirdparty](thirdparty) y sus respectivas licencias se encuentran junto a la misma de TASCHE en el fichero [LICENSE](LICENSE).
 Por lo tanto, lo único necesario para compilar TASCHE es abrir la terminal, ir al directorio raíz del proyecto y allí ejecutar `./compile.sh` en Linux o `compile.bat` en Windows.
 ***
+## Uso
 ### Patrones
 Los patrones TASCHE sirven tanto para reconocer cadenas de texto como para generarlas. Los tipos de patrones son los siguientes:
 
@@ -123,9 +128,15 @@ TASCHE lee un fichero JSON que debe tener la siguiente estructura:
     - Un par de `input` y `responses`, donde éste último contiene una lista de pares `condition` y `output`. El patrón de entrada coincide, se generarán respuestas con los patrones de salida donde la condición se evalúe como verdadera.
     - Una terna `input`, `condition`, `output` equivalente al caso anterior en el que la lista de respuestas tenga un solo elemento.
     - Un par de `condition`, `output`. Estas son las respuestas _por defecto_. Se evalúan sólo cuando una entrada no ha coincidido con ningun patrón de la lista.
+
+### Consejos y trucos
+To do
+
 ***
+## Desarrollo
 ### Utilizar la librería
-To Do
-### Utilizar la modificar el proyecto
-To Do
-### Licencia
+To do
+### Modificar los parsers
+To do
+### Funcionalidades por hacer
+To do
