@@ -28,6 +28,7 @@ Las condiciones en TASCHE se especifican con _expresiones_ en un lenguaje de scr
 El código fuente de TASCHE está autocontenido. Los scripts necesarios para la compilación en Windows y en Linux están incluidos en la raíz del proyecto. El código fuente de otros proyectos FLOSS está contenido en el directorio [thirdparty](thirdparty) y sus respectivas licencias se encuentran junto a la misma de TASCHE en el fichero [LICENSE](LICENSE).
 Por lo tanto, lo único necesario para compilar TASCHE es abrir la terminal, ir al directorio raíz del proyecto y allí ejecutar `./compile.sh` en Linux o `compile.bat` en Windows.
 ***
+## Uso
 ### Patrones
 Los patrones TASCHE sirven tanto para reconocer cadenas de texto como para generarlas. Los tipos de patrones son los siguientes:
 
@@ -130,6 +131,7 @@ TASCHE lee un fichero JSON que debe tener la siguiente estructura:
 To do
 
 ***
+## Desarrollo
 ### Utilizar la librería
 To do
 ### Modificar los parsers
