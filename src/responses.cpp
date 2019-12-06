@@ -128,6 +128,7 @@ namespace cpt{
     void launch(){
         symbol_table["_TA_RUNNING_"] = "1";
         cout << init->compose();
+        commitChanges(); // to commit the changes made by init
         while(b(symbol_table["_TA_RUNNING_"]) && !cin.eof()){
             try{
                 string str;
