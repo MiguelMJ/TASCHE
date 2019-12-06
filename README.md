@@ -126,7 +126,7 @@ TASCHE lee un fichero JSON que debe tener la siguiente estructura:
     - Una terna `input`, `condition`, `output` equivalente al caso anterior en el que la lista de respuestas tenga un solo elemento.
     - Un par de `condition`, `output`. Estas son las respuestas _por defecto_. Se evalúan sólo cuando una entrada no ha coincidido con ningun patrón de la lista.
 
-# Consejos y trucos
+### Consejos y trucos
 To do
 
 ***
