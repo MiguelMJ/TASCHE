@@ -4,14 +4,16 @@ Text Adventure and Simple CHatbot Engine
 ##### Tabla de Contenidos
 - [Introducción](#introducción)
 - [Compilar TASCHE](#compilar-tasche)
-- [Patrones](#patrones)
-- [Expresiones](#expresiones)
-    - [Expresiones como condiciones](#expresiones-como-condiciones)
-- [Fichero de especificación](#fichero-de-especificación)
-- [Consejos y trucos](#consejos-y-trucos)
-- [Utilizar la librería](#utilizar-la-librería)
-- [Modificar los parsers](#modificar-los-parsers)
-- [Funcionalidades por hacer](#funcionalidades-por-hacer)
+- [Uso](uso)
+    - [Patrones](#patrones)
+    - [Expresiones](#expresiones)
+        - [Expresiones como condiciones](#expresiones-como-condiciones)
+    - [Fichero de especificación](#fichero-de-especificación)
+    - [Consejos y trucos](#consejos-y-trucos)
+- [Desarrollo](Desarrollo)
+    - [Utilizar la librería](#utilizar-la-librería)
+    - [Modificar los parsers](#modificar-los-parsers)
+    - [Funcionalidades por hacer](#funcionalidades-por-hacer)
 
 ### Introducción
 TASCHE es una herramienta para especificar aplicaciones basadas en texto que persigue flexibilidad en el reconocimiento de la entrada y variedad en las respuestas. Para ello , utiliza unos _patrones_ que se explicaran en profundidad más abajo.
