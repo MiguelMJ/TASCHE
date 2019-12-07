@@ -130,7 +130,26 @@ TASCHE lee un fichero JSON que debe tener la siguiente estructura:
     - Un par de `condition`, `output`. Estas son las respuestas _por defecto_. Se evalúan sólo cuando una entrada no ha coincidido con ningun patrón de la lista.
 
 ### Consejos y trucos
-To do
+- Las variable dinámicas intentan reconocer empezando por la coincidencia más larga posible desde la derecha. Esto significa que, de dos posibilidades, se escogerá aquella donde el match de la izquierda sea el más largo.
+Ejemplo:
+`Quiero leer >libro de >autor` ante la entrada `Quiero leer El Quijote de la Mancha de Miguel de Cervantes` asigna las variables:
+`>libro` = `El Quijote de la Mancha de Miguel`
+`>autor` = `Cervantes`
+En futuras actualizaciones se pretende posibilitar elegir la coincidencia más corta o la más larga.
+- Cuando se quieren hacer comprobaciones sobre una variable dinámica recién leída, conviene hacerlo en una variable temporal para no sobreescribir el valor anterior antes de la comprobación.
+Ejemplo:
+```JSON
+{
+   "input":"Quiero ir a >nuevo_lugar",
+   "responses":[{
+                "condition":"@nuevo_lugar == @lugar_actual",
+                "output":"Ya te encuentras en $lugar_actual"
+                },{
+                "condition":"@nuevo_lugar != @lugar_actual",
+                "output":"Dirigiéndonos a $nuevo_lugar{@lugar_actual = @nuevo_lugar}"
+                }]
+}
+```
 
 ***
 ## Desarrollo
@@ -139,4 +158,5 @@ To do
 ### Modificar los parsers
 To do
 ### Funcionalidades por hacer
-To do
+- Diferenciar tipos de variables dinámicas según la longitud que aceptan.
+- Extender el lenguaje de las expresiones para llamar expresionsones definidas por el usuario.
