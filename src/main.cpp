@@ -40,12 +40,24 @@ int main(int argc, char** argv){
     ee_yydebug = 1;
     pp_yydebug = 1;
     #endif
+    bool verbose = false;
+    // options
+    int argi = 1;
+    char *option;
+    bool option_recognized = true;
+    while(argi < argc && option_recognized){
+        option = argv[argi];
+        if(option == "-v" ){
+            verbose = true;
+        }else{
+            option_recognized = false;
+        }
+    }
+    // launch
     try{
-        if(argc > 1){
-            for(int i = 1; i < argc; i++){
-                loadSpecs(argv[i]);
-                launch();
-            }
+        if(argi < argc){
+            loadSpecs(argv[argi]);
+            launch();
         }else{
             cout << "Provide specification files" << endl;
         }
