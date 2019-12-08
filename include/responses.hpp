@@ -27,6 +27,7 @@
 
 #include "pattern.hpp"
 #include "expression.hpp"
+#include "symboltable.hpp"
 #include "rapidjson/document.h"
 #include "rapidjson/error/en.h"
 #include "rapidjson/istreamwrapper.h"
@@ -39,7 +40,6 @@
 
 
 namespace cpt{
-    extern std::map<std::string,std::string> symbol_table;
     extern pattern init;
     typedef struct {
         pattern input;
@@ -48,7 +48,7 @@ namespace cpt{
     } response;
     extern std::vector<response> responses;
     extern std::vector<response> defresponses;
-    void loadSpecs(const std::string& filename);
+    void loadSpecs(const std::string& filename, bool verbose=false);
     void respond(const std::string& str);
     void launch();
     

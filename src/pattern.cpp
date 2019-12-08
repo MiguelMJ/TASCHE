@@ -30,9 +30,6 @@ namespace cpt{
         std::transform(s2.begin(), s2.end(), s2.begin(), ::tolower);
         return s1 == s2;
     }
-    std::map<std::string, std::string> symbol_table;
-    std::map<std::string, std::string> changes_table;
-    std::map<std::string, std::string> local_table;
     bool st_pattern::match(const std::string& str){
         int pos = 0;
         return match(str,pos) && pos == str.size(); 
@@ -78,7 +75,7 @@ namespace cpt{
         return matched;
     }
     bool st_pattern_variable::match(const std::string& str, int& pos) const{
-        std::string value = local_table[str];
+        std::string value = st::get(str);
         bool matched = compare_case_insensitive(value, str.substr(pos,value.size()));
         if(matched){
             pos += value.size();
@@ -88,7 +85,7 @@ namespace cpt{
     bool st_pattern_dynamic::match(const std::string& str, int& pos) const{
         bool matched;
         if(right == nullptr){
-            local_table[id] = str.substr(pos);
+            st::set(id, str.substr(pos));
             pos = str.size();
             matched = true;
         }else{
@@ -100,7 +97,7 @@ namespace cpt{
                 pos = size-trynum;
                 matched = right->match(str,pos);
                 if(matched){
-                    local_table[id] = str.substr(oldpos,pos-oldpos-trynum);
+                    st::set(id, str.substr(oldpos,pos-oldpos-trynum));
                 }else{
                     pos = oldpos;
                     trynum++;
@@ -126,10 +123,10 @@ namespace cpt{
         return options[rand() % options.size()]->compose();
     }
     std::string st_pattern_variable::compose () const{
-        return local_table.find(frag) != local_table.end() ? local_table[frag] : symbol_table[frag];
+        return st::get(frag);
     }
     std::string st_pattern_dynamic::compose () const{
-        std::stringstream ss(local_table[id]);
+        std::stringstream ss(st::get(id));
         if(right)
             ss << right->compose();
         return ss.str();
@@ -172,20 +169,5 @@ namespace cpt{
     }
     std::forward_list<std::string> allCompositions(pattern){
         //TODO
-    }
-    void addLocalChanges(){
-        for(auto ch: local_table){
-            changes_table[ch.first] = ch.second;
-        }
-        local_table.clear();
-    }
-    void commitChanges(){
-        for(auto ch: changes_table){
-            symbol_table[ch.first] = ch.second;
-        }
-        changes_table.clear();
-    }
-    void discardLocalChanges(){
-        local_table.clear();
     }
 }

@@ -24,6 +24,7 @@
  */ 
 
 #include "expression.hpp"
+#include "symboltable.hpp"
 using namespace cpt;
 extern std::string parsedExpression;
 extern int ee_yylex();
@@ -31,6 +32,7 @@ void ee_yyerror(const char* msg);
 }
 %{
 #include "expression.hpp"
+#include "symboltable.hpp"
 #include <string>
 #include <exception>
 bool b(const std::string& s){
@@ -52,15 +54,6 @@ int pow(int a, int b){
         b--;
     }
     return ret;
-}
-std::string mostRecentSymbol(const std::string& id){
-    std::string value;
-    if(cpt::local_table.find(id) != cpt::local_table.end()){
-        value = cpt::local_table[id];
-    }else{
-        value = cpt::symbol_table[id];
-    }
-    return value;
 }
 %}
 %define api.prefix {ee_yy}
@@ -95,7 +88,7 @@ axiom : program {parsedExpression = *$1;
                 }
       ;
 program : exp            {  $$ = $1;  }
-        | STRVAR '=' exp {  cpt::local_table[*$1] = *$3;
+        | STRVAR '=' exp {  st::set(*$1, *$3);
                             $$ = new std::string(); delete $1; delete $3;
                             }
         | NUMVAR '=' exp {  
@@ -107,7 +100,7 @@ program : exp            {  $$ = $1;  }
                             }catch(std::invalid_argument& e){
                                 v="0";
                             }
-                            cpt::local_table[*$1] = v;
+                            st::set(*$1, v);
                             $$ = new std::string(); delete $1; delete $3;
                             }
         | program ';' program {$$ = $3; delete $1;}
@@ -131,7 +124,7 @@ exp : VALUE {$$ = $1;}
                    $$ = new std::string(s(*$1 != *$3));
                    delete $1; delete $3;
                   }
-    | STRVAR      {$$ = new std::string(mostRecentSymbol(*$1)); delete $1;}
+    | STRVAR      {$$ = new std::string(st::get(*$1)); delete $1;}
     ;
 nexp: NUMBER        {$$ = $1;}
     | '(' exp ')'   {
@@ -156,7 +149,7 @@ nexp: NUMBER        {$$ = $1;}
     | nexp LT nexp  {$$ = $1  < $3 ? 1 : 0;}
     | NUMVAR        {
                     try{
-                        $$ = std::stoi(mostRecentSymbol(*$1));
+                        $$ = std::stoi(st::get(*$1));
                     }catch(std::invalid_argument& e){
                         $$ = 0;
                     }

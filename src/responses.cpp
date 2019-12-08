@@ -36,7 +36,7 @@ namespace cpt{
     pattern init;
     std::vector<response> responses;
     std::vector<response> defresponses;
-    void loadSpecs(const std::string& filename){
+    void loadSpecs(const std::string& filename, bool verbose){
         try{
             ifstream fin(filename.c_str());
             IStreamWrapper isw(fin);
@@ -102,34 +102,35 @@ namespace cpt{
             if(r.input->match(str) && b(parseExpression(r.condition))){ // here the state is modified
                 matched = true;
                 res = r.output->compose(); // also here
-                addLocalChanges(); // we save the changes for the end of the response
+                st::add(); // we save the changes for the end of the response
                 if(!res.empty()){
                     cout << res << endl;
                 }
             }else{
-                discardLocalChanges(); // else, we reset the local table
+                st::discard(); // else, we reset the local table
             }
         }
         if(!matched){
             for(auto r : defresponses){
                 if(b(parseExpression(r.condition))){ // here the state is modified
                     res = r.output->compose(); // also here
-                    addLocalChanges(); // we save the changes for the end of the response
+                    st::add(); // we save the changes for the end of the response
                     if(!res.empty()){
                         cout << res << endl;
                     }
                 }else{
-                    discardLocalChanges(); // else, we reset the local table
+                    st::discard(); // else, we reset the local table
                 }
             }
         }
-        commitChanges(); // we add to the global table the changes we wanted
+        st::commit(); // we add to the global table the changes we wanted
     }
     void launch(){
-        symbol_table["_TA_RUNNING_"] = "1";
+        st::set("_TA_RUNNING_","1");
         cout << init->compose();
-        commitChanges(); // to commit the changes made by init
-        while(b(symbol_table["_TA_RUNNING_"]) && !cin.eof()){
+        st::add();
+        st::commit(); // to commit the changes made by init
+        while(b(st::get("_TA_RUNNING_")) && !cin.eof()){
             try{
                 string str;
                 cout << ">";

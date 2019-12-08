@@ -26,6 +26,7 @@
 #define _PATTERN_HPP_
 
 #include "expression.hpp"
+#include "symboltable.hpp"
 #include <string>
 #include <iostream>
 #include <sstream>
@@ -43,8 +44,6 @@ namespace cpt{
     /*
      * PATTERN
      */
-    extern std::map<std::string,std::string> symbol_table;
-    extern std::map<std::string,std::string> local_table;
     struct st_pattern{
         bool match(const std::string& str);
         virtual bool match(const std::string& str, int& pos) const = 0;
@@ -92,9 +91,6 @@ namespace cpt{
         virtual std::string toString() const;
     };
     pattern parsePattern(const std::string& str);
-    void addLocalChanges();
-    void commitChanges();
-    void discardLocalChanges();
 }
 
 #endif

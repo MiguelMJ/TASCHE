@@ -27,10 +27,8 @@
 
 #include <string>
 #include <map>
-
+#include "symboltable.hpp"
 namespace cpt{
-    extern std::map<std::string,std::string> symbol_table;
-    extern std::map<std::string,std::string> local_table;
     std::string parseExpression(const std::string& str);
 }
 
