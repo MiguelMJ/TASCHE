@@ -1971,10 +1971,13 @@ void pp_end_lexical_scan(void) {
   pp_yy_delete_buffer(YY_CURRENT_BUFFER);
 }
 namespace cpt{
-    pattern parsePattern(const std::string& str){
+    pattern parsePattern(const std::string& str, bool verbose){
         #ifdef DEBUG
         std::cout << "\e[38;2;250;250;0mparsePattern: " << str << "\e[0m" << std::endl;
         #endif
+        if(verbose){
+            std::cerr << "parse pattern: " << str << std::endl;
+        }
         pp_set_input_string(str.c_str());
         pp_yyparse();
         pp_end_lexical_scan();

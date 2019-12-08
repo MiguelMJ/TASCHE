@@ -43,12 +43,18 @@ int main(int argc, char** argv){
     bool verbose = false;
     // options
     int argi = 1;
-    char *option;
+    string option;
     bool option_recognized = true;
     while(argi < argc && option_recognized){
         option = argv[argi];
-        if(option == "-v" ){
-            verbose = true;
+        if(option[0] == '-'){
+            argi++;
+            if(option == "-v"){
+                verbose = true;
+                cerr << "mode verbose" << endl;
+            }else{
+                cerr << "unknown option " << option;
+            }
         }else{
             option_recognized = false;
         }

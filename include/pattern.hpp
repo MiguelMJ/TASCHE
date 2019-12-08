@@ -90,7 +90,7 @@ namespace cpt{
         virtual std::string compose () const;
         virtual std::string toString() const;
     };
-    pattern parsePattern(const std::string& str);
+    pattern parsePattern(const std::string& str, bool verbose=false);
 }
 
 #endif

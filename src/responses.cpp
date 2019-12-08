@@ -36,7 +36,11 @@ namespace cpt{
     pattern init;
     std::vector<response> responses;
     std::vector<response> defresponses;
+    
     void loadSpecs(const std::string& filename, bool verbose){
+        if(verbose){
+            cerr << "mode verbose" << endl;
+        }
         try{
             ifstream fin(filename.c_str());
             IStreamWrapper isw(fin);
@@ -50,13 +54,13 @@ namespace cpt{
             myassert(d.IsObject(),"Expected object as main structure");
             myassert(d.HasMember("init") && d["init"].IsString(), "Expected main attribute \"init\" to be a string");
             myassert(d.HasMember("responses") && d["responses"].IsArray(), "Expected main attribute \"responses\" to be an array");
-            init = parsePattern(d["init"].GetString());
+            init = parsePattern(d["init"].GetString(), verbose);
             Value r = d["responses"].GetArray();
             for(auto it = r.Begin(); it != r.End(); it++){
                 auto target = &responses;
                 pattern input = nullptr;
                 if(it->HasMember("input")){
-                    input = parsePattern((*it)["input"].GetString());
+                    input = parsePattern((*it)["input"].GetString(), verbose);
                 }else{
                     target = &defresponses;
                 }
@@ -66,14 +70,14 @@ namespace cpt{
                         response r;
                         r.input = input;
                         r.condition = (*itr)["condition"].GetString();
-                        r.output = parsePattern((*itr)["output"].GetString());
+                        r.output = parsePattern((*itr)["output"].GetString(), verbose);
                         target->push_back(r);
                     }
                 }else{
                     response r;
                     r.input = input;
                     r.condition = (*it)["condition"].GetString();
-                    r.output = parsePattern((*it)["output"].GetString());
+                    r.output = parsePattern((*it)["output"].GetString(), verbose);
                     target->push_back(r);
                 }
             }
@@ -81,7 +85,7 @@ namespace cpt{
             #ifdef DEBUG
             cerr << "\e[38;2;250;0;0m" << e.what() << "\e[0m" << endl;
             #else
-            cerr << "Error loading JSON file" << endl;
+            cerr << "Error loading JSON file " << filename << endl;
             #endif
             throw std::runtime_error(e.what());
         }
