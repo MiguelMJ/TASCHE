@@ -104,6 +104,7 @@ program : exp            {  $$ = $1;  }
                             $$ = new std::string(); delete $1; delete $3;
                             }
         | program ';' program {$$ = $3; delete $1;}
+        | {$$ = new std::string;}
         ;
 exp : VALUE {$$ = $1;}
     | nexp  {$$ = new std::string(std::to_string($1));}

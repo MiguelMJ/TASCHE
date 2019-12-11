@@ -51,6 +51,11 @@ void pp_yyerror(const char* msg);
 
 %%
 finalpattern : patterntklist {parsedPattern = pattern($1);};
+             |   {
+                    auto spp = new st_pattern_plain;
+                    spp -> frag = "";
+                    parsedPattern = pattern(spp);
+                }
 patterntklist : patterntk patterntklist {
                             auto spc = new st_pattern_composed;
                             spc->left = pattern($1);
