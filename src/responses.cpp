@@ -35,15 +35,6 @@ namespace cpt{
             throw std::runtime_error(msg);
         }
     }
-    bool b(const std::string& s){
-        bool ret;
-        try{
-            ret = stoi(s) != 0;
-        }catch(std::exception& e){
-            ret = !s.empty();
-        }
-        return ret;
-    }
     bool ResponseModule::respond(const std::string& str, std::ostream& out){
         bool match = false;
         for(auto r : responses){
@@ -58,7 +49,7 @@ namespace cpt{
     }
     bool SimpleResponse::respond(const std::string& str, std::ostream& out){
         st::scope();
-        if((input == nullptr || input->match(str)) && b(parseExpression(condition))){
+        if( (input == nullptr || input->match(str)) && condition->evaluateBool() ){
             out << output->compose();
             st::add(st::newId());
             st::descope();
@@ -71,7 +62,7 @@ namespace cpt{
     bool RecursiveResponse::respond(const std::string& str, std::ostream& out){
         bool ret;
         st::scope();
-        if(input->match(str) && b(parseExpression(condition))){
+        if(input->match(str) && condition->evaluateBool() ){
             int id = st::newId();
             ret = responses.respond(new_answer == nullptr? str: new_answer->compose(),out);
             if(ret){
@@ -101,7 +92,7 @@ namespace cpt{
                 myassert((*it)["responses"].IsArray(), "\"responses\" attribute must be an array");
                 auto res = new RecursiveResponse;
                 res->input = input;
-                res->condition = (*it)["condition"].GetString();
+                res->condition = parseExpression((*it)["condition"].GetString(),verbose);
                 if(it->HasMember("question")){
                     myassert((*it)["question"].IsString(), "\"question\" attribute must be a string");
                     res->new_answer = parsePattern((*it)["question"].GetString(),verbose);
@@ -115,7 +106,7 @@ namespace cpt{
                 myassert((*it)["output"].IsString(),"\"output\" attribute must be a string");
                 auto res = new SimpleResponse;
                 res->input = input;
-                res->condition = (*it)["condition"].GetString();
+                res->condition = parseExpression((*it)["condition"].GetString(), verbose);
                 res->output = parsePattern((*it)["output"].GetString(), verbose);
                 target->push_back(response(res));
             }
@@ -165,7 +156,10 @@ namespace cpt{
         st::add(0);
         st::descope();
         st::commit();
-        while(b(st::get("_TA_RUNNING_")) && !cin.eof()){
+        
+        auto finish = parseExpression("!@_TA_RUNNING_");
+        
+        while( !finish->evaluateBool() && !cin.eof()){
             try{
                 string str;
                 cout << ">";

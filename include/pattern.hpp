@@ -68,7 +68,8 @@ namespace cpt{
         virtual std::string compose() const;
         virtual std::string toString() const;
     };
-    struct st_pattern_function: st_pattern_plain{
+    struct st_pattern_function: st_pattern{
+        expression exp;
         virtual bool match(const std::string& str, int& pos) const;
         virtual std::string compose() const;
         virtual std::string toString() const;

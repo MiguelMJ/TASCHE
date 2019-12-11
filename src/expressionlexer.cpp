@@ -552,7 +552,7 @@ typedef struct yy_buffer_state * YY_BUFFER_STATE;
 extern int yyparse();
 extern YY_BUFFER_STATE ee_yy_scan_string(char * str);
 extern void ee_yy_delete_buffer(YY_BUFFER_STATE buffer);
-std::string parsedExpression;
+expression parsedExpression;
 
 #line 558 "src/expressionlexer.cpp"
 
@@ -2005,7 +2005,7 @@ void ee_end_lexical_scan(void) {
   ee_yy_delete_buffer(YY_CURRENT_BUFFER);
 }
 namespace cpt{
-    std::string parseExpression(const std::string& str){
+    expression parseExpression(const std::string& str, bool verbose){
         #ifdef DEBUG
         std::cout << "\e[38;2;250;250;0mparseExpression: " << str << "\e[0m" << std::endl;
         #endif
@@ -2013,7 +2013,7 @@ namespace cpt{
         ee_yyparse();
         ee_end_lexical_scan();
         #ifdef DEBUG
-        std::cout << "\e[38;2;0;250;0mSuccesfully parsed expression: " << str << " as \"" << parsedExpression << "\"\e[0m" << std::endl;
+        // std::cout << "\e[38;2;0;250;0mSuccesfully parsed expression: " << str << " as \"" << parsedExpression << "\"\e[0m" << std::endl;
         #endif
         return parsedExpression;
     }

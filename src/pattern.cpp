@@ -119,7 +119,7 @@ namespace cpt{
         return rand() % 2 == 0 ? subpattern->compose() : "";
     }
     std::string st_pattern_function::compose () const{
-        return parseExpression(frag);
+        return exp->evaluate();
     }
     std::string st_pattern_multiple::compose () const{
         return options[rand() % options.size()]->compose();
@@ -146,7 +146,8 @@ namespace cpt{
     }
     std::string st_pattern_function::toString () const{
         std::stringstream ss;
-        ss << "{" << frag << "}";
+        ss << "{function}";
+        // ToDo
         return ss.str();
     }
     std::string st_pattern_multiple::toString () const{

@@ -78,7 +78,7 @@ patterntklist : patterntk patterntklist {
                ;
 patterntk   : SCRIPT    {
                         auto spf = new st_pattern_function;
-                        spf -> frag = std::string($1);
+                        spf -> exp = parseExpression($1,false);
                         $$ = spf;
                         }
             | '[' patterntklist ']'         {

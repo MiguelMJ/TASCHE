@@ -1319,7 +1319,7 @@ yyreduce:
 #line 79 "lang/pattern.bison" /* yacc.c:1646  */
     {
                         auto spf = new st_pattern_function;
-                        spf -> frag = std::string((yyvsp[0].bigstr));
+                        spf -> exp = parseExpression((yyvsp[0].bigstr),false);
                         (yyval.paval) = spf;
                         }
 #line 1326 "src/patternparser.cpp" /* yacc.c:1646  */

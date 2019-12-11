@@ -77,7 +77,7 @@ extern int ee_yydebug;
 #include "expression.hpp"
 #include "symboltable.hpp"
 using namespace cpt;
-extern std::string parsedExpression;
+extern expression parsedExpression;
 extern int ee_yylex();
 void ee_yyerror(const char* msg);
 
@@ -111,12 +111,14 @@ void ee_yyerror(const char* msg);
 
 union EE_YYSTYPE
 {
-#line 60 "lang/expression.bison" /* yacc.c:1909  */
+#line 52 "lang/expression.bison" /* yacc.c:1909  */
 
     int ival;
     std::string* strval;
+    expressionST* expval;
+    expressionST_numeric* expnumval;
 
-#line 120 "include/expressionparser.hpp" /* yacc.c:1909  */
+#line 122 "include/expressionparser.hpp" /* yacc.c:1909  */
 };
 
 typedef union EE_YYSTYPE EE_YYSTYPE;

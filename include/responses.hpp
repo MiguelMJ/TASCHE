@@ -46,7 +46,7 @@ namespace cpt{
     };
     struct SingleResponse : public responseST{
         pattern input;
-        std::string condition;
+        expression condition;
         virtual bool respond(const std::string& str, std::ostream& out)=0;
     };
     struct ResponseModule : public responseST{

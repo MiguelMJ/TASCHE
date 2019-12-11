@@ -26,49 +26,43 @@
 #include "expression.hpp"
 #include "symboltable.hpp"
 using namespace cpt;
-extern std::string parsedExpression;
+extern expression parsedExpression;
 extern int ee_yylex();
 void ee_yyerror(const char* msg);
 }
 %{
 #include "expression.hpp"
-#include "symboltable.hpp"
-#include <string>
-#include <exception>
-bool b(const std::string& s){
-    bool ret;
-    try{
-        ret = 0 != std::stoi(s);
-    }catch(std::exception& e){
-        ret = !s.empty();
-    }
-    return ret;
+using namespace cpt;
+expressionST* makestrop(expressionST* e1,exp::oper o,expressionST* e2){
+    auto exstrop = new struct expressionST_str_op;
+    exstrop -> operation = o;
+    exstrop -> op1 = expression(e1);
+    exstrop -> op2 = expression(e2);
+    return exstrop;
 }
-std::string s(bool b){
-    return b ? "1" : "0";
-}
-int pow(int a, int b){
-    int ret = 1;
-    while(b>0){
-        ret*=a;
-        b--;
-    }
-    return ret;
+expressionST_numeric* makenumop(expressionST_numeric* e1,exp::oper o,expressionST_numeric* e2){
+    auto exnumop = new struct expressionST_num_op;
+    exnumop -> operation = o;
+    exnumop -> op1 = expressionNum(e1);
+    exnumop -> op2 = expressionNum(e2);
+    return exnumop;
 }
 %}
 %define api.prefix {ee_yy}
 %union{
     int ival;
     std::string* strval;
+    expressionST* expval;
+    expressionST_numeric* expnumval;
 }
 %token <void> AND OR SNE SEQ EQ NE GE GT LE LT 
 %token <ival> NUMBER
 %token <strval> VALUE STRVAR NUMVAR
 
 %type <void> axiom
-%type <strval> program
-%type <strval> exp
-%type <ival> nexp
+%type <expval> program
+%type <expval> exp
+%type <expnumval> nexp
 
 %left ';'
 %left OR
@@ -83,78 +77,76 @@ int pow(int a, int b){
 %left '('
 
 %%
-axiom : program {parsedExpression = *$1;
-                 delete $1;
-                }
+axiom : program {parsedExpression = expression($1);}
       ;
-program : exp            {  $$ = $1;  }
-        | STRVAR '=' exp {  st::set(*$1, *$3);
-                            $$ = new std::string(); delete $1; delete $3;
-                            }
-        | NUMVAR '=' exp {  
-                            int i;
-                            std::string v;
-                            try{
-                                i = std::stoi(*$3);
-                                v = std::to_string(i);
-                            }catch(std::invalid_argument& e){
-                                v="0";
-                            }
-                            st::set(*$1, v);
-                            $$ = new std::string(); delete $1; delete $3;
-                            }
-        | program ';' program {$$ = $3; delete $1;}
-        | {$$ = new std::string;}
+program : exp            {$$ = $1;}
+        | STRVAR '=' exp {auto exas = new expressionST_asignation;
+                          exas -> id = *$1;
+                          exas -> value = expression($3);
+                          $$ = exas;
+                          delete $1;
+                         }
+        | NUMVAR '=' exp {auto excast = new expressionST_num_cast;
+                          excast -> exp = expression($3);
+                          auto exas = new expressionST_asignation;
+                          exas -> id = *$1;
+                          exas -> value = expression(excast);
+                          $$ = exas;
+                          delete $1;
+                         }
+        | program ';' program {auto excomp = new expressionST_comp;
+                               excomp -> e1 = expression($1);
+                               excomp -> e2 = expression($3);
+                               $$ = excomp;
+                                }
+        | {$$ = new expressionST_string;}
         ;
-exp : VALUE {$$ = $1;}
-    | nexp  {$$ = new std::string(std::to_string($1));}
-    | NOT exp {$$ = new std::string(s(!b(*$2))); delete $2;}
-    | exp AND exp {
-                   $$ = new std::string(s(b(*$1) && b(*$3)));
-                   delete $1; delete $3;
+exp : VALUE {auto exstr = new expressionST_string;
+             exstr -> value = *$1;
+             $$ = exstr;
+             delete $1;
+            }
+    | nexp  {$$ = $1;}
+    | NOT exp {auto exne = new expressionST_neg;
+               exne->exp = expression($2);
+               $$ = exne;
+                }
+    | exp AND exp {$$ = makestrop($1,exp::oper::AND,$3);}
+    | exp  OR exp {$$ = makestrop($1,exp::oper::OR,$3);}
+    | exp SEQ exp {$$ = makestrop($1,exp::oper::SEQ,$3);}
+    | exp SNE exp {$$ = makestrop($1,exp::oper::SNE,$3);}
+    | STRVAR      {auto exvar = new expressionST_variable;
+                   exvar -> value = *$1;
+                   $$ = exvar;
+                   delete $1;
                    }
-    | exp  OR exp {
-                   $$ = new std::string(s(b(*$1) || b(*$3)));
-                   delete $1; delete $3;
-                   }
-    | exp SEQ exp {
-                   $$ = new std::string(s(*$1 == *$3));
-                   delete $1; delete $3;
-                   }
-    | exp SNE exp {
-                   $$ = new std::string(s(*$1 != *$3));
-                   delete $1; delete $3;
-                  }
-    | STRVAR      {$$ = new std::string(st::get(*$1)); delete $1;}
     ;
-nexp: NUMBER        {$$ = $1;}
-    | '(' exp ')'   {
-                    try{
-                        $$ = std::stoi(*$2);
-                    }catch(std::invalid_argument& e){
-                        $$ = 0;
+nexp: NUMBER        {auto exnum = new expressionST_number;
+                     exnum -> value = $1;
+                     $$ = exnum;
                     }
-                    delete $2;
+    | '(' exp ')'   {auto excast = new expressionST_num_cast;
+                     excast -> exp = expression($2);
+                     $$ = excast;
                     }
-    | nexp '+' nexp {$$ = $1 + $3;}
-    | nexp '-' nexp {$$ = $1 - $3;}
-    | nexp '*' nexp {$$ = $1 * $3;}
-    | nexp '/' nexp {$$ = $1 / $3;}
-    | nexp '%' nexp {$$ = $1 % $3;}
-    | nexp '^' nexp {$$ = pow($1,$3);}
-    | nexp EQ nexp  {$$ = $1 == $3 ? 1 : 0;}
-    | nexp NE nexp  {$$ = $1 != $3 ? 1 : 0;}
-    | nexp GE nexp  {$$ = $1 >= $3 ? 1 : 0;}
-    | nexp GT nexp  {$$ = $1  > $3 ? 1 : 0;}
-    | nexp LE nexp  {$$ = $1 <= $3 ? 1 : 0;}
-    | nexp LT nexp  {$$ = $1  < $3 ? 1 : 0;}
-    | NUMVAR        {
-                    try{
-                        $$ = std::stoi(st::get(*$1));
-                    }catch(std::invalid_argument& e){
-                        $$ = 0;
-                    }
-                    delete $1;
+    | nexp '+' nexp {$$ = makenumop($1,exp::oper::SUM, $3);}
+    | nexp '-' nexp {$$ = makenumop($1,exp::oper::DIF, $3);}
+    | nexp '*' nexp {$$ = makenumop($1,exp::oper::MUL, $3);}
+    | nexp '/' nexp {$$ = makenumop($1,exp::oper::DIV, $3);}
+    | nexp '%' nexp {$$ = makenumop($1,exp::oper::MOD, $3);}
+    | nexp '^' nexp {$$ = makenumop($1,exp::oper::POW, $3);}
+    | nexp EQ nexp  {$$ = makenumop($1,exp::oper::EQ, $3);}
+    | nexp NE nexp  {$$ = makenumop($1,exp::oper::NE, $3);}
+    | nexp GE nexp  {$$ = makenumop($1,exp::oper::GE, $3);}
+    | nexp GT nexp  {$$ = makenumop($1,exp::oper::GT, $3);}
+    | nexp LE nexp  {$$ = makenumop($1,exp::oper::LE, $3);}
+    | nexp LT nexp  {$$ = makenumop($1,exp::oper::LT, $3);}
+    | NUMVAR        {auto exvar = new expressionST_variable;
+                     exvar -> value = *$1;
+                     auto excast = new expressionST_num_cast;
+                     excast -> exp = expression(exvar);
+                     $$ = excast;
+                     delete $1;
                     }
     ;
 
