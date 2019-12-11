@@ -39,7 +39,6 @@
 #include <vector>
 #include <exception>
 
-
 namespace cpt{
     typedef std::shared_ptr<struct responseST> response;
     struct responseST{
