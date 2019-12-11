@@ -433,7 +433,7 @@ union yyalloc
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  6
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  13
+#define YYNRULES  14
 /* YYNSTATES -- Number of states.  */
 #define YYNSTATES  23
 
@@ -482,8 +482,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    53,    53,    54,    60,    66,    67,    74,    79,    84,
-      90,    92,    98,   102
+       0,    53,    53,    54,    59,    65,    71,    72,    79,    84,
+      89,    95,    97,   103,   107
 };
 #endif
 
@@ -532,9 +532,9 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,    10,     7,     6,     0,     0,     0,     2,     5,     4,
-       0,     0,     0,     1,     3,     8,     0,     9,    13,     0,
-      11,    13,    12
+       3,    11,     8,     7,     0,     0,     0,     2,     6,     5,
+       0,     0,     0,     1,     4,     9,     0,    10,    14,     0,
+      12,    14,    13
 };
 
   /* YYPGOTO[NTERM-NUM].  */
@@ -576,15 +576,15 @@ static const yytype_uint8 yystos[] =
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    12,    13,    14,    14,    14,    14,    15,    15,    15,
-      15,    16,    17,    17
+       0,    12,    13,    13,    14,    14,    14,    14,    15,    15,
+      15,    15,    16,    17,    17
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     1,     2,     2,     1,     1,     1,     3,     3,
-       1,     4,     3,     0
+       0,     2,     1,     0,     2,     2,     1,     1,     1,     3,
+       3,     1,     4,     3,     0
 };
 
 
@@ -1269,106 +1269,116 @@ yyreduce:
   case 3:
 #line 54 "lang/pattern.bison" /* yacc.c:1646  */
     {
+                    auto spp = new st_pattern_plain;
+                    spp -> frag = "";
+                    parsedPattern = pattern(spp);
+                }
+#line 1277 "src/patternparser.cpp" /* yacc.c:1646  */
+    break;
+
+  case 4:
+#line 59 "lang/pattern.bison" /* yacc.c:1646  */
+    {
                             auto spc = new st_pattern_composed;
                             spc->left = pattern((yyvsp[-1].paval));
                             spc->right = pattern((yyvsp[0].paval));
                             (yyval.paval) = spc;
                             }
-#line 1278 "src/patternparser.cpp" /* yacc.c:1646  */
+#line 1288 "src/patternparser.cpp" /* yacc.c:1646  */
     break;
 
-  case 4:
-#line 60 "lang/pattern.bison" /* yacc.c:1646  */
+  case 5:
+#line 65 "lang/pattern.bison" /* yacc.c:1646  */
     {
                             auto spd = new st_pattern_dynamic;
                             spd->id = (yyvsp[-1].strval);
                             spd->right = pattern((yyvsp[0].paval));   
                             (yyval.paval) = spd;
                             }
-#line 1289 "src/patternparser.cpp" /* yacc.c:1646  */
-    break;
-
-  case 5:
-#line 66 "lang/pattern.bison" /* yacc.c:1646  */
-    {(yyval.paval) = (yyvsp[0].paval);}
-#line 1295 "src/patternparser.cpp" /* yacc.c:1646  */
+#line 1299 "src/patternparser.cpp" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 67 "lang/pattern.bison" /* yacc.c:1646  */
+#line 71 "lang/pattern.bison" /* yacc.c:1646  */
+    {(yyval.paval) = (yyvsp[0].paval);}
+#line 1305 "src/patternparser.cpp" /* yacc.c:1646  */
+    break;
+
+  case 7:
+#line 72 "lang/pattern.bison" /* yacc.c:1646  */
     {
                             auto spd = new st_pattern_dynamic;
                             spd -> id = (yyvsp[0].strval);
                             spd -> right = nullptr;
                             (yyval.paval) = spd;
                             }
-#line 1306 "src/patternparser.cpp" /* yacc.c:1646  */
-    break;
-
-  case 7:
-#line 74 "lang/pattern.bison" /* yacc.c:1646  */
-    {
-                        auto spf = new st_pattern_function;
-                        spf -> frag = std::string((yyvsp[0].bigstr));
-                        (yyval.paval) = spf;
-                        }
 #line 1316 "src/patternparser.cpp" /* yacc.c:1646  */
     break;
 
   case 8:
 #line 79 "lang/pattern.bison" /* yacc.c:1646  */
     {
-                            auto spo = new st_pattern_optional;
-                            spo -> subpattern = pattern((yyvsp[-1].paval));
-                            (yyval.paval) = spo;
-                            }
+                        auto spf = new st_pattern_function;
+                        spf -> frag = std::string((yyvsp[0].bigstr));
+                        (yyval.paval) = spf;
+                        }
 #line 1326 "src/patternparser.cpp" /* yacc.c:1646  */
     break;
 
   case 9:
 #line 84 "lang/pattern.bison" /* yacc.c:1646  */
     {
+                            auto spo = new st_pattern_optional;
+                            spo -> subpattern = pattern((yyvsp[-1].paval));
+                            (yyval.paval) = spo;
+                            }
+#line 1336 "src/patternparser.cpp" /* yacc.c:1646  */
+    break;
+
+  case 10:
+#line 89 "lang/pattern.bison" /* yacc.c:1646  */
+    {
                             auto spm = new st_pattern_multiple;
                             spm -> options = *(yyvsp[-1].plval);
                             (yyval.paval) = spm;
                             delete (yyvsp[-1].plval);
                             }
-#line 1337 "src/patternparser.cpp" /* yacc.c:1646  */
-    break;
-
-  case 10:
-#line 90 "lang/pattern.bison" /* yacc.c:1646  */
-    {(yyval.paval) = (yyvsp[0].paval);}
-#line 1343 "src/patternparser.cpp" /* yacc.c:1646  */
+#line 1347 "src/patternparser.cpp" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 92 "lang/pattern.bison" /* yacc.c:1646  */
+#line 95 "lang/pattern.bison" /* yacc.c:1646  */
+    {(yyval.paval) = (yyvsp[0].paval);}
+#line 1353 "src/patternparser.cpp" /* yacc.c:1646  */
+    break;
+
+  case 12:
+#line 97 "lang/pattern.bison" /* yacc.c:1646  */
     {
                                     (yyvsp[0].plval)->push_back(pattern((yyvsp[-1].paval)));
                                     (yyvsp[0].plval)->push_back(pattern((yyvsp[-3].paval)));
                                     (yyval.plval) = (yyvsp[0].plval);
                                     }
-#line 1353 "src/patternparser.cpp" /* yacc.c:1646  */
+#line 1363 "src/patternparser.cpp" /* yacc.c:1646  */
     break;
 
-  case 12:
-#line 98 "lang/pattern.bison" /* yacc.c:1646  */
+  case 13:
+#line 103 "lang/pattern.bison" /* yacc.c:1646  */
     {
                                     (yyvsp[0].plval)->push_back(pattern((yyvsp[-1].paval))); 
                                     (yyval.plval) = (yyvsp[0].plval);
                                     }
-#line 1362 "src/patternparser.cpp" /* yacc.c:1646  */
-    break;
-
-  case 13:
-#line 102 "lang/pattern.bison" /* yacc.c:1646  */
-    {(yyval.plval) = new pattern_list;}
-#line 1368 "src/patternparser.cpp" /* yacc.c:1646  */
-    break;
-
-
 #line 1372 "src/patternparser.cpp" /* yacc.c:1646  */
+    break;
+
+  case 14:
+#line 107 "lang/pattern.bison" /* yacc.c:1646  */
+    {(yyval.plval) = new pattern_list;}
+#line 1378 "src/patternparser.cpp" /* yacc.c:1646  */
+    break;
+
+
+#line 1382 "src/patternparser.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1596,7 +1606,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 107 "lang/pattern.bison" /* yacc.c:1906  */
+#line 112 "lang/pattern.bison" /* yacc.c:1906  */
 
 void pp_yyerror(const char* msg){
     throw std::runtime_error("pattern parser:"+std::string(msg));

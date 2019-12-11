@@ -470,7 +470,7 @@ union yyalloc
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  5
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  29
+#define YYNRULES  30
 /* YYNSTATES -- Number of states.  */
 #define YYNSTATES  55
 
@@ -520,9 +520,10 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    86,    86,    90,    91,    94,   106,   108,   109,   110,
-     111,   115,   119,   123,   127,   129,   130,   138,   139,   140,
-     141,   142,   143,   144,   145,   146,   147,   148,   149,   150
+       0,    86,    86,    90,    91,    94,   106,   107,   109,   110,
+     111,   112,   116,   120,   124,   128,   130,   131,   139,   140,
+     141,   142,   143,   144,   145,   146,   147,   148,   149,   150,
+     151
 };
 #endif
 
@@ -576,12 +577,12 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,    15,     7,    14,    29,     0,     0,     0,     2,     3,
-       8,     0,     0,    14,    29,     9,     0,     1,     0,     0,
+       7,    16,     8,    15,    30,     0,     0,     0,     2,     3,
+       9,     0,     0,    15,    30,    10,     0,     1,     7,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     4,     5,    16,     6,    10,
-      11,    13,    12,    23,    24,    25,    26,    27,    28,    17,
-      18,    19,    20,    21,    22
+       0,     0,     0,     0,     0,     4,     5,    17,     6,    11,
+      12,    14,    13,    24,    25,    26,    27,    28,    29,    18,
+      19,    20,    21,    22,    23
 };
 
   /* YYPGOTO[NTERM-NUM].  */
@@ -638,17 +639,19 @@ static const yytype_uint8 yystos[] =
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    28,    29,    30,    30,    30,    30,    31,    31,    31,
-      31,    31,    31,    31,    31,    32,    32,    32,    32,    32,
-      32,    32,    32,    32,    32,    32,    32,    32,    32,    32
+       0,    28,    29,    30,    30,    30,    30,    30,    31,    31,
+      31,    31,    31,    31,    31,    31,    32,    32,    32,    32,
+      32,    32,    32,    32,    32,    32,    32,    32,    32,    32,
+      32
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     1,     1,     3,     3,     3,     1,     1,     2,
-       3,     3,     3,     3,     1,     1,     3,     3,     3,     3,
-       3,     3,     3,     3,     3,     3,     3,     3,     3,     1
+       0,     2,     1,     1,     3,     3,     3,     0,     1,     1,
+       2,     3,     3,     3,     3,     1,     1,     3,     3,     3,
+       3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
+       1
 };
 
 
@@ -1329,13 +1332,13 @@ yyreduce:
     {parsedExpression = *(yyvsp[0].strval);
                  delete (yyvsp[0].strval);
                 }
-#line 1333 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1336 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 3:
 #line 90 "lang/expression.bison" /* yacc.c:1646  */
     {  (yyval.strval) = (yyvsp[0].strval);  }
-#line 1339 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1342 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 4:
@@ -1343,7 +1346,7 @@ yyreduce:
     {  st::set(*(yyvsp[-2].strval), *(yyvsp[0].strval));
                             (yyval.strval) = new std::string(); delete (yyvsp[-2].strval); delete (yyvsp[0].strval);
                             }
-#line 1347 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1350 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 5:
@@ -1360,83 +1363,89 @@ yyreduce:
                             st::set(*(yyvsp[-2].strval), v);
                             (yyval.strval) = new std::string(); delete (yyvsp[-2].strval); delete (yyvsp[0].strval);
                             }
-#line 1364 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1367 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 6:
 #line 106 "lang/expression.bison" /* yacc.c:1646  */
     {(yyval.strval) = (yyvsp[0].strval); delete (yyvsp[-2].strval);}
-#line 1370 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1373 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 108 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.strval) = (yyvsp[0].strval);}
-#line 1376 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 107 "lang/expression.bison" /* yacc.c:1646  */
+    {(yyval.strval) = new std::string;}
+#line 1379 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 8:
 #line 109 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.strval) = new std::string(std::to_string((yyvsp[0].ival)));}
-#line 1382 "src/expressionparser.cpp" /* yacc.c:1646  */
+    {(yyval.strval) = (yyvsp[0].strval);}
+#line 1385 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 9:
 #line 110 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.strval) = new std::string(s(!b(*(yyvsp[0].strval)))); delete (yyvsp[0].strval);}
-#line 1388 "src/expressionparser.cpp" /* yacc.c:1646  */
+    {(yyval.strval) = new std::string(std::to_string((yyvsp[0].ival)));}
+#line 1391 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 10:
 #line 111 "lang/expression.bison" /* yacc.c:1646  */
-    {
-                   (yyval.strval) = new std::string(s(b(*(yyvsp[-2].strval)) && b(*(yyvsp[0].strval))));
-                   delete (yyvsp[-2].strval); delete (yyvsp[0].strval);
-                   }
+    {(yyval.strval) = new std::string(s(!b(*(yyvsp[0].strval)))); delete (yyvsp[0].strval);}
 #line 1397 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 115 "lang/expression.bison" /* yacc.c:1646  */
+#line 112 "lang/expression.bison" /* yacc.c:1646  */
     {
-                   (yyval.strval) = new std::string(s(b(*(yyvsp[-2].strval)) || b(*(yyvsp[0].strval))));
+                   (yyval.strval) = new std::string(s(b(*(yyvsp[-2].strval)) && b(*(yyvsp[0].strval))));
                    delete (yyvsp[-2].strval); delete (yyvsp[0].strval);
                    }
 #line 1406 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 119 "lang/expression.bison" /* yacc.c:1646  */
+#line 116 "lang/expression.bison" /* yacc.c:1646  */
     {
-                   (yyval.strval) = new std::string(s(*(yyvsp[-2].strval) == *(yyvsp[0].strval)));
+                   (yyval.strval) = new std::string(s(b(*(yyvsp[-2].strval)) || b(*(yyvsp[0].strval))));
                    delete (yyvsp[-2].strval); delete (yyvsp[0].strval);
                    }
 #line 1415 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 123 "lang/expression.bison" /* yacc.c:1646  */
+#line 120 "lang/expression.bison" /* yacc.c:1646  */
     {
-                   (yyval.strval) = new std::string(s(*(yyvsp[-2].strval) != *(yyvsp[0].strval)));
+                   (yyval.strval) = new std::string(s(*(yyvsp[-2].strval) == *(yyvsp[0].strval)));
                    delete (yyvsp[-2].strval); delete (yyvsp[0].strval);
-                  }
+                   }
 #line 1424 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 127 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.strval) = new std::string(st::get(*(yyvsp[0].strval))); delete (yyvsp[0].strval);}
-#line 1430 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 124 "lang/expression.bison" /* yacc.c:1646  */
+    {
+                   (yyval.strval) = new std::string(s(*(yyvsp[-2].strval) != *(yyvsp[0].strval)));
+                   delete (yyvsp[-2].strval); delete (yyvsp[0].strval);
+                  }
+#line 1433 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 129 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.ival) = (yyvsp[0].ival);}
-#line 1436 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 128 "lang/expression.bison" /* yacc.c:1646  */
+    {(yyval.strval) = new std::string(st::get(*(yyvsp[0].strval))); delete (yyvsp[0].strval);}
+#line 1439 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 16:
 #line 130 "lang/expression.bison" /* yacc.c:1646  */
+    {(yyval.ival) = (yyvsp[0].ival);}
+#line 1445 "src/expressionparser.cpp" /* yacc.c:1646  */
+    break;
+
+  case 17:
+#line 131 "lang/expression.bison" /* yacc.c:1646  */
     {
                     try{
                         (yyval.ival) = std::stoi(*(yyvsp[-1].strval));
@@ -1445,83 +1454,83 @@ yyreduce:
                     }
                     delete (yyvsp[-1].strval);
                     }
-#line 1449 "src/expressionparser.cpp" /* yacc.c:1646  */
-    break;
-
-  case 17:
-#line 138 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.ival) = (yyvsp[-2].ival) + (yyvsp[0].ival);}
-#line 1455 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1458 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 18:
 #line 139 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.ival) = (yyvsp[-2].ival) - (yyvsp[0].ival);}
-#line 1461 "src/expressionparser.cpp" /* yacc.c:1646  */
+    {(yyval.ival) = (yyvsp[-2].ival) + (yyvsp[0].ival);}
+#line 1464 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 19:
 #line 140 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.ival) = (yyvsp[-2].ival) * (yyvsp[0].ival);}
-#line 1467 "src/expressionparser.cpp" /* yacc.c:1646  */
+    {(yyval.ival) = (yyvsp[-2].ival) - (yyvsp[0].ival);}
+#line 1470 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 20:
 #line 141 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.ival) = (yyvsp[-2].ival) / (yyvsp[0].ival);}
-#line 1473 "src/expressionparser.cpp" /* yacc.c:1646  */
+    {(yyval.ival) = (yyvsp[-2].ival) * (yyvsp[0].ival);}
+#line 1476 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 21:
 #line 142 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.ival) = (yyvsp[-2].ival) % (yyvsp[0].ival);}
-#line 1479 "src/expressionparser.cpp" /* yacc.c:1646  */
+    {(yyval.ival) = (yyvsp[-2].ival) / (yyvsp[0].ival);}
+#line 1482 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 22:
 #line 143 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.ival) = pow((yyvsp[-2].ival),(yyvsp[0].ival));}
-#line 1485 "src/expressionparser.cpp" /* yacc.c:1646  */
+    {(yyval.ival) = (yyvsp[-2].ival) % (yyvsp[0].ival);}
+#line 1488 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 23:
 #line 144 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.ival) = (yyvsp[-2].ival) == (yyvsp[0].ival) ? 1 : 0;}
-#line 1491 "src/expressionparser.cpp" /* yacc.c:1646  */
+    {(yyval.ival) = pow((yyvsp[-2].ival),(yyvsp[0].ival));}
+#line 1494 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 24:
 #line 145 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.ival) = (yyvsp[-2].ival) != (yyvsp[0].ival) ? 1 : 0;}
-#line 1497 "src/expressionparser.cpp" /* yacc.c:1646  */
+    {(yyval.ival) = (yyvsp[-2].ival) == (yyvsp[0].ival) ? 1 : 0;}
+#line 1500 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 25:
 #line 146 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.ival) = (yyvsp[-2].ival) >= (yyvsp[0].ival) ? 1 : 0;}
-#line 1503 "src/expressionparser.cpp" /* yacc.c:1646  */
+    {(yyval.ival) = (yyvsp[-2].ival) != (yyvsp[0].ival) ? 1 : 0;}
+#line 1506 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 26:
 #line 147 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.ival) = (yyvsp[-2].ival)  > (yyvsp[0].ival) ? 1 : 0;}
-#line 1509 "src/expressionparser.cpp" /* yacc.c:1646  */
+    {(yyval.ival) = (yyvsp[-2].ival) >= (yyvsp[0].ival) ? 1 : 0;}
+#line 1512 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 27:
 #line 148 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.ival) = (yyvsp[-2].ival) <= (yyvsp[0].ival) ? 1 : 0;}
-#line 1515 "src/expressionparser.cpp" /* yacc.c:1646  */
+    {(yyval.ival) = (yyvsp[-2].ival)  > (yyvsp[0].ival) ? 1 : 0;}
+#line 1518 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 28:
 #line 149 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.ival) = (yyvsp[-2].ival)  < (yyvsp[0].ival) ? 1 : 0;}
-#line 1521 "src/expressionparser.cpp" /* yacc.c:1646  */
+    {(yyval.ival) = (yyvsp[-2].ival) <= (yyvsp[0].ival) ? 1 : 0;}
+#line 1524 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 29:
 #line 150 "lang/expression.bison" /* yacc.c:1646  */
+    {(yyval.ival) = (yyvsp[-2].ival)  < (yyvsp[0].ival) ? 1 : 0;}
+#line 1530 "src/expressionparser.cpp" /* yacc.c:1646  */
+    break;
+
+  case 30:
+#line 151 "lang/expression.bison" /* yacc.c:1646  */
     {
                     try{
                         (yyval.ival) = std::stoi(st::get(*(yyvsp[0].strval)));
@@ -1530,11 +1539,11 @@ yyreduce:
                     }
                     delete (yyvsp[0].strval);
                     }
-#line 1534 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1543 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 1538 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1547 "src/expressionparser.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1762,7 +1771,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 160 "lang/expression.bison" /* yacc.c:1906  */
+#line 161 "lang/expression.bison" /* yacc.c:1906  */
 
 void ee_yyerror(const char* msg){
     throw std::runtime_error("expression parser:"+std::string(msg));
