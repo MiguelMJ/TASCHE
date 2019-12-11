@@ -30,11 +30,6 @@ using namespace rapidjson;
 namespace cpt{
     ResponseModule rootModule;
     std::vector<pattern> init;
-    void myassert(bool ass, const std::string& msg="Failed assert"){
-        if(!ass){
-            throw std::runtime_error(msg);
-        }
-    }
     bool ResponseModule::respond(const std::string& str, std::ostream& out){
         bool match = false;
         for(auto r : responses){
@@ -115,14 +110,18 @@ namespace cpt{
     }
     void loadSpecs(const std::string& filename, bool verbose){
         try{
-            ifstream fin(filename.c_str());
-            IStreamWrapper isw(fin);
             Document d;
+            /*ifstream fin(filename.c_str());
+            IStreamWrapper isw(fin);
             d.ParseStream(isw);
-            fin.close();
-            
-            if(d.HasParseError()){
-                throw std::runtime_error(rapidjson::GetParseError_En(d.GetParseError()));
+            fin.close();*/
+            std::string json = preprocesJSONFile(filename);
+            StringStream s(json.c_str());
+            ParseResult info = d.ParseStream(s);
+            if(info.IsError()){
+                std::stringstream errinfo;
+                errinfo << json.substr(info.Offset(),10) << endl << rapidjson::GetParseError_En(info.Code()); 
+                throw std::runtime_error(errinfo.str().c_str());
             }
             myassert(d.IsObject(),"Expected object as main structure");
             myassert(d.HasMember("init") && d["init"].IsString(), "Expected main attribute \"init\" to be a string");

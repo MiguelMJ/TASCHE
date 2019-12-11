@@ -28,12 +28,12 @@
 #include "pattern.hpp"
 #include "expression.hpp"
 #include "symboltable.hpp"
+#include "util.hpp"
 #include "rapidjson/document.h"
 #include "rapidjson/error/en.h"
 #include "rapidjson/istreamwrapper.h"
 #include <iostream>
 #include <memory>
-#include <fstream>
 #include <map>
 #include <string>
 #include <vector>

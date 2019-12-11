@@ -29,6 +29,7 @@
 #include <string>
 #include <exception>
 #include "symboltable.hpp"
+#include "util.hpp"
 namespace cpt{
     namespace exp{
         typedef enum {
