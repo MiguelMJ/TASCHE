@@ -40,9 +40,11 @@ namespace cpt{
     bool st_pattern_plain::match(const std::string& str, int& pos) const{
         bool matched = false;
         int size = frag.size();
-        std::string localstr = str.substr(pos,size);
-        matched = compare_case_insensitive(frag, localstr);
-        if(matched) pos += size;
+        if(size <= str.size() - pos){
+            std::string localstr = str.substr(pos,size);
+            matched = compare_case_insensitive(frag, localstr);
+            if(matched) pos += size;
+        }
         return matched;
     }
     bool st_pattern_optional::match(const std::string& str, int& pos) const{
@@ -75,7 +77,7 @@ namespace cpt{
         return matched;
     }
     bool st_pattern_variable::match(const std::string& str, int& pos) const{
-        std::string value = st::get(str);
+        std::string value = st::get(frag);
         bool matched = compare_case_insensitive(value, str.substr(pos,value.size()));
         if(matched){
             pos += value.size();
@@ -167,7 +169,7 @@ namespace cpt{
         }
         return ss.str();
     }
-    std::forward_list<std::string> allCompositions(pattern){
+    /*std::forward_list<std::string> allCompositions(pattern){
         //TODO
-    }
+    }*/
 }

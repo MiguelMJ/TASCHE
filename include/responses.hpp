@@ -32,6 +32,7 @@
 #include "rapidjson/error/en.h"
 #include "rapidjson/istreamwrapper.h"
 #include <iostream>
+#include <memory>
 #include <fstream>
 #include <map>
 #include <string>
@@ -40,16 +41,31 @@
 
 
 namespace cpt{
-    extern pattern init;
-    typedef struct {
+    typedef std::shared_ptr<struct responseST> response;
+    struct responseST{
+        virtual bool respond(const std::string& str, std::ostream& out)=0;
+    };
+    struct SingleResponse : public responseST{
         pattern input;
         std::string condition;
+        virtual bool respond(const std::string& str, std::ostream& out)=0;
+    };
+    struct ResponseModule : public responseST{
+        std::vector<response> responses;
+        std::vector<response> defaultResponses;
+        virtual bool respond(const std::string& str, std::ostream& out);
+    };
+    struct SimpleResponse : public SingleResponse{
         pattern output;
-    } response;
-    extern std::vector<response> responses;
-    extern std::vector<response> defresponses;
+        virtual bool respond(const std::string& str, std::ostream& out);
+    };
+    struct RecursiveResponse : public SingleResponse{
+        pattern new_answer;
+        ResponseModule responses;
+        virtual bool respond(const std::string& str, std::ostream& out);
+    };
     void loadSpecs(const std::string& filename, bool verbose=false);
-    void respond(const std::string& str);
+    std::string respond(const std::string& str);
     void launch();
     
 }
