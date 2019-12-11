@@ -25,11 +25,6 @@
 #include "pattern.hpp"
 
 namespace cpt{
-    bool compare_case_insensitive (std::string s1, std::string s2){
-        std::transform(s1.begin(), s1.end(), s1.begin(), ::tolower);
-        std::transform(s2.begin(), s2.end(), s2.begin(), ::tolower);
-        return s1 == s2;
-    }
     bool st_pattern::match(const std::string& str){
         int pos = 0;
         return match(str,pos) && pos == str.size(); 

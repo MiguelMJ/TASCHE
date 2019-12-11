@@ -129,10 +129,10 @@ namespace cpt{
                 ret = op1->evaluateBool() || op2->evaluateBool()? "1": "0";
                 break;
             case exp::oper::SEQ:
-                ret = op1->evaluate() == op2->evaluate()? "1": "0";
+                ret = compare_case_insensitive(op1->evaluate(), op2->evaluate())? "1": "0";
                 break;
             case exp::oper::SNE:
-                ret = op1->evaluate() != op2->evaluate()? "1": "0";
+                ret = compare_case_insensitive(op1->evaluate(), op2->evaluate())? "0": "1";
                 break;
             default:
                 semantic_error();

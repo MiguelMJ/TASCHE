@@ -27,6 +27,7 @@
 
 #include "expression.hpp"
 #include "symboltable.hpp"
+#include "util.hpp"
 #include <string>
 #include <iostream>
 #include <sstream>
@@ -35,7 +36,6 @@
 #include <forward_list>
 #include <memory>
 #include <exception>
-#include <algorithm>
 
 namespace cpt{
     typedef std::shared_ptr<struct st_pattern> pattern;
