@@ -62,7 +62,9 @@ int main(int argc, char** argv){
     // launch
     try{
         if(argi < argc){
-            loadSpecs(argv[argi], verbose);
+            for(int i = argi; i < argc; i++){
+                loadSpecs(argv[i], verbose);
+            }
             launch();
         }else{
             cout << "Provide specification files" << endl;
