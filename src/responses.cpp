@@ -45,7 +45,7 @@ namespace cpt{
     bool SimpleResponse::respond(const std::string& str, std::ostream& out){
         st::scope();
         if( (input == nullptr || input->match(str)) && condition->evaluateBool() ){
-            out << output->compose();
+            out << output->compose() << endl;
             st::add(st::newId());
             st::descope();
             return true;
@@ -163,7 +163,7 @@ namespace cpt{
                 string str;
                 cout << ">";
                 getline(cin,str);
-                cout << respond(str) << endl;
+                cout << respond(str);
             }catch(exception& e){
                 #ifdef DEBUG
                 cerr << "\e[38;2;250;0;0m" << e.what() << "\e[0m" << endl;

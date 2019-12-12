@@ -50,12 +50,13 @@ void pp_yyerror(const char* msg);
 %left '{' '[' '(' ATOMIC
 
 %%
-finalpattern : patterntklist {parsedPattern = pattern($1);};
+finalpattern : patterntklist {parsedPattern = pattern($1);}
              |   {
                     auto spp = new st_pattern_plain;
                     spp -> frag = "";
                     parsedPattern = pattern(spp);
                 }
+             ;
 patterntklist : patterntk patterntklist {
                             auto spc = new st_pattern_composed;
                             spc->left = pattern($1);
@@ -65,6 +66,10 @@ patterntklist : patterntk patterntklist {
                | DYNAMIC patterntklist {
                             auto spd = new st_pattern_dynamic;
                             spd->id = $1;
+                            spd -> shortest = $1[0]=='.';
+                            if(spd -> shortest){
+                                spd -> id = spd -> id.substr(1);
+                            }
                             spd->right = pattern($2);   
                             $$ = spd;
                             }
@@ -72,6 +77,10 @@ patterntklist : patterntk patterntklist {
                | DYNAMIC    {
                             auto spd = new st_pattern_dynamic;
                             spd -> id = $1;
+                            spd -> shortest = $1[0]=='.';
+                            if(spd -> shortest){
+                                spd -> id = spd -> id.substr(1);
+                            }
                             spd -> right = nullptr;
                             $$ = spd;
                             }

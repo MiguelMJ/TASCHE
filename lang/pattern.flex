@@ -96,7 +96,7 @@ std::stringstream token;
             pp_yylval.paval = aux;
             return ATOMIC;
             }
-">"{ID}      {
+">"\.?{ID}      {
             std::string aux(yytext);
             aux = aux.substr(1);
             strcpy(pp_yylval.strval,aux.c_str());

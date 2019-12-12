@@ -87,6 +87,7 @@ namespace cpt{
     };
     struct st_pattern_dynamic: st_pattern_composed{
         std::string id;
+        bool shortest;
         virtual bool match(const std::string& str, int& pos) const;
         virtual std::string compose () const;
         virtual std::string toString() const;

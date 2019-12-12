@@ -90,11 +90,12 @@ namespace cpt{
             int oldpos = pos;
             int trynum = 1;
             int size = str.size();
-            while(!matched && size-trynum != pos){
-                pos = size-trynum;
+            while(!matched && pos+trynum < size){
+                pos = shortest ? oldpos+trynum : size-trynum;
                 matched = right->match(str,pos);
                 if(matched){
-                    st::set(id, str.substr(oldpos,pos-oldpos-trynum));
+                    auto v = str.substr(oldpos,shortest ? trynum : pos-oldpos-trynum);
+                    st::set(id, v);
                 }else{
                     pos = oldpos;
                     trynum++;
