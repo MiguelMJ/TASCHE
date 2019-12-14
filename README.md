@@ -3,7 +3,7 @@ Text Adventure and Simple CHatbot Engine
 ***
 
 ### Uso
-Para una guía detallada de uso, ver la [wiki](wiki)
+Para una guía detallada de uso, ver la [wiki](/wiki)
 
 ### Compilar TASCHE
 El código fuente de TASCHE está autocontenido. Los scripts necesarios para la compilación en Windows y en Linux están incluidos en la raíz del proyecto. El código fuente de otros proyectos FLOSS está contenido en el directorio [thirdparty](thirdparty) y sus respectivas licencias se encuentran junto a la misma de TASCHE en el fichero [LICENSE](LICENSE).
