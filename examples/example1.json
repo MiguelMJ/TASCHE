@@ -1,0 +1,28 @@
+{
+"init":"Empezando en {@location  =  ''vestibulo'';@location}\n",
+"responses":[
+    {
+        "input":"[¿]d(o|ó)nde estoy[?]",
+        "condition":"1",
+        "output":"Estás en $location"
+    },{
+        "input":"(i|move)r[ a[(l| la)]] >new_dir",
+        "condition":"1",
+        "question":"$new_dir",
+        "responses":[{
+                        "input":"$location",
+                        "condition":"1",
+                        "output":"Ya estás en $location"
+                    },{
+                        "condition":"1",
+                        "output":"Moviéndose a $new_dir.{@location = @new_dir}"
+                    }]
+    },{
+        "input":"(quit|exit|bye|adi(o|ó)s)",
+        "condition":"1",
+        "output":"Exiting{#_TA_RUNNING_ = 0}"
+    },{
+        "condition":"1",
+        "output":"No he entendido eso"
+    }]
+}
