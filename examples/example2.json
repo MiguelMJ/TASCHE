@@ -2,32 +2,35 @@
 "init":"",
 "responses":
     [{
-        "input":">input",
+        "input":">var",
         "condition":"1",
         "responses":
             [{
                 "condition":"1",
-                "output":"R1: $input"
+                "output":"R1: $var"
             },{
-                "condition":"@input=''bark bark'';1",
+                "condition":"@var=''bark bark'';1",
                 "responses":
                     [{
-                        "input":">input",
+                        "input":">var",
                         "condition":"1",
-                        "responses":[]
+                        "responses":[{
+                            "condition":"0",
+                            "output":"R2.0.0: $var"
+                        }]
                     },{
                         "condition":"1",
-                        "output":"R2.1: $input"
+                        "output":"R2.1: $var"
                     },{
                         "condition":"1",
-                        "output":"R2.2: $input"
+                        "output":"R2.2: $var"
                     },{
-                        "condition":"@input=''meow meow'';1",
-                        "output":"R2.3: $input{#X=#X+1} $X"
+                        "condition":"@var=''meow meow'';1",
+                        "output":"R2.3: $var{#X=#X+1}"
                     }]
             },{
                 "condition":"1",
-                "output":"R3: $input\nX=$X"
+                "output":"R3: $var\nX=$X{@oldvar=@var}"
             }]
     }]
 }
