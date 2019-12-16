@@ -17,3 +17,5 @@ TASCHE no tiene dependencias externas. Los scripts necesarios para la compilaci�
 - Plantearse la posibilidad de hacer Turing completo el lenguaje de las expresiones
 - Plantearse la posibilidad de permitir una interfaz entre el lenguaje de las expresiones y funciones definidas por el usuario (p.e. llamadas del sistema)
 - Perfeccionar distintas opciones y niveles de verbose y debug
+- Añaidir un tipo diccionario al lenguaje de las expresiones
+- Implementar conexión con bases de datos y bases de conocimiento
