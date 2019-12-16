@@ -1,6 +1,7 @@
 ## TASCHE
 Text Adventure and Simple CHatbot Engine
 ***
+Soon there will be an English version of the documentation of this project!
 
 ### Uso
 Para una guía detallada de uso, ver la [wiki](https://github.com/MiguelMJ/TASCHE/wiki)
