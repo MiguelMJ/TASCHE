@@ -22,11 +22,11 @@
                         "condition":"1",
                         "output":"R2.1: $var"
                     },{
-                        "condition":"1",
-                        "output":"R2.2: $var"
-                    },{
                         "condition":"@var=''meow meow'';1",
-                        "output":"R2.3: $var{#X=#X+1}"
+                        "output":"R2.2: $var{#X=#X+1}"
+                    },{
+                        "condition":"1",
+                        "output":"R2.3: $var"
                     }]
             },{
                 "condition":"1",
