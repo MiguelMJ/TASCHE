@@ -53,7 +53,6 @@ namespace cpt{
         return std::to_string(evaluateNum());
     }
     int expressionST_number::evaluateNum()const{
-        std::cout << "value: " << value << std::endl;
         return value;
     }
     int expressionST_num_cast::evaluateNum()const{
@@ -71,7 +70,6 @@ namespace cpt{
         v2 = op2->evaluateNum();
         switch(operation){
             case exp::oper::SUM:
-                std::cout << "suma " << v1 << " + " << v2 << std::endl;
                 ret = v1 + v2;
             break;
             case exp::oper::DIF:
