@@ -19,3 +19,4 @@ TASCHE no tiene dependencias externas. Los scripts necesarios para la compilaci�
 - Perfeccionar distintas opciones y niveles de verbose y debug
 - Añaidir un tipo diccionario al lenguaje de las expresiones
 - Implementar conexión con bases de datos y bases de conocimiento
+- Extender documentación para usar la librería en desarrollo de nuevas aplicaciones
