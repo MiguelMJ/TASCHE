@@ -52,15 +52,15 @@ namespace st{
                 ret = it->second;
             }
         }
-        // std::cerr << "st: get " << id << " -> " << ret << std::endl;
+        std::cerr << "st: get " << id << " -> " << ret << std::endl;
         return ret;
     }
     void set(const std::string& id, const std::string& value){
-        // std::cerr << "st: set " << id << " = " << value << std::endl;
+        std::cerr << "st: set " << id << " = " << value << std::endl;
         local_table.top()[id] = value;
     }
     void scope(){
-        // std::cerr << "st: scoping" << std::endl;
+        std::cerr << "st: scoping" << std::endl;
         table t;
         if(local_table.size() > 0){
             for(auto pair : local_table.top()){
@@ -70,7 +70,7 @@ namespace st{
         local_table.push(t);
     }
     void descope(){
-        // std::cerr << "st: descoping" << std::endl;
+        std::cerr << "st: descoping" << std::endl;
         local_table.pop();
     }
     void add(int id){
@@ -83,10 +83,10 @@ namespace st{
         changesets[id] = t;
     }
     void commit(){
-        // std::cerr << "st: commiting" << std::endl;
+        std::cerr << "st: commiting" << std::endl;
         for(auto kv : changesets){
             for(auto p : kv.second){
-                // std::cerr << '\t' << p.first << "\t= " << p.second << std::endl;
+                std::cerr << '\t' << p.first << "\t= " << p.second << std::endl;
             }
             move(kv.second,symbol_table);
         }

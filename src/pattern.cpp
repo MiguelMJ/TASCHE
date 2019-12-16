@@ -143,7 +143,7 @@ namespace cpt{
     std::string st_pattern_function::toString () const{
         std::stringstream ss;
         ss << "{function}";
-        // ToDo
+        // TODO
         return ss.str();
     }
     std::string st_pattern_multiple::toString () const{
