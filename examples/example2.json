@@ -1,0 +1,13 @@
+{
+"init":"{#a = 1; #b = 2; #c = 3}",
+"responses":[{
+        "condition":"1",
+        "output":"Inicialmente: $a $b $c {@a=''uno'';@b=''dos'';@c=''tres''} \nTras la expresión: $a $b $c"
+        },{
+        "condition":"1",
+        "responses":[{
+                "condition":"1",
+                "output":"Respuesta 1:"
+            }]
+        }]
+}
