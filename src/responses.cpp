@@ -57,7 +57,7 @@ namespace cpt{
     bool RecursiveResponse::respond(const std::string& str, std::ostream& out){
         bool ret;
         st::scope();
-        if(input->match(str) && condition->evaluateBool() ){
+        if( (input == nullptr || input->match(str)) && condition->evaluateBool() ){
             int id = st::newId();
             ret = responses.respond(new_answer == nullptr? str: new_answer->compose(),out);
             if(ret){
