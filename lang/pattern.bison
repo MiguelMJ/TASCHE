@@ -84,17 +84,24 @@ patterntklist : patterntk patterntklist {
                             spd -> right = nullptr;
                             $$ = spd;
                             }
+                | '[' patterntklist ']' patterntklist {
+                            auto spo = new st_pattern_optional;
+                            spo -> left = pattern($2);
+                            spo -> right = pattern($4);
+                            $$ = spo;
+                            }
+                | '[' patterntklist ']' {
+                            auto spo = new st_pattern_optional;
+                            spo -> left = pattern($2);
+                            spo -> right = nullptr;
+                            $$ = spo;
+                            }
                ;
 patterntk   : SCRIPT    {
                         auto spf = new st_pattern_function;
                         spf -> exp = parseExpression($1,false);
                         $$ = spf;
                         }
-            | '[' patterntklist ']'         {
-                            auto spo = new st_pattern_optional;
-                            spo -> subpattern = pattern($2);
-                            $$ = spo;
-                            }
             | '(' pattern_options ')'   {
                             auto spm = new st_pattern_multiple;
                             spm -> options = *$2;

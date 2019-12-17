@@ -45,7 +45,8 @@ namespace cpt{
      * PATTERN
      */
     struct st_pattern{
-        bool match(const std::string& str);
+        bool match(const std::string& str)const;
+        bool strictMatch(const std::string& str, int& pos) const;
         virtual bool match(const std::string& str, int& pos) const = 0;
         virtual std::string compose() const = 0;
         virtual std::string toString() const = 0;
@@ -56,8 +57,7 @@ namespace cpt{
         virtual std::string compose() const;
         virtual std::string toString() const;
     };
-    struct st_pattern_optional: st_pattern{
-        pattern subpattern;
+    struct st_pattern_optional: st_pattern_composed{
         virtual bool match(const std::string& str, int& pos) const;
         virtual std::string compose() const;
         virtual std::string toString() const;

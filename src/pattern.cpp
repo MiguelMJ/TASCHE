@@ -28,12 +28,23 @@ namespace cpt{
     /*
      * match
      */
-    bool st_pattern::match(const std::string& str){
+    bool st_pattern::match(const std::string& str)const{
         int pos = 0;
+        return strictMatch(str,pos);
+    }
+    bool st_pattern::strictMatch(const std::string& str, int& pos)const{
         return match(str,pos) && pos == str.size(); 
     }
     bool st_pattern_composed::match(const std::string& str, int& pos) const{
-        return left->match(str, pos) && right->match(str,pos);
+        int oldpos = pos;
+        bool matched = left->match(str, pos);
+        if(matched){ // pos has changed
+            matched = right->match(str,pos);
+            if(!matched){ // pos shouldn't change
+                pos = oldpos;
+            }
+        }
+        return matched;
     }
     bool st_pattern_plain::match(const std::string& str, int& pos) const{
         bool matched = false;
@@ -47,11 +58,12 @@ namespace cpt{
     }
     bool st_pattern_optional::match(const std::string& str, int& pos) const{
         int oldpos = pos;
-        bool matched = subpattern->match(str,pos);
+        left->match(str,pos); // pos is modified
+        bool matched = right == nullptr || right->match(str,pos);
         if(!matched){
             pos = oldpos;
         }
-        return true;
+        return matched;
     }
     bool st_pattern_function::match(const std::string& str, int& pos) const{
         std::string value = compose();
@@ -63,7 +75,7 @@ namespace cpt{
     }
     bool st_pattern_multiple::match(const std::string& str, int& pos) const{
         int oldpos = pos;
-        bool matched;
+        bool matched = false;
         for(auto p: options){
             matched = p->match(str,pos);
             if(!matched){
@@ -83,7 +95,7 @@ namespace cpt{
         return matched;
     }
     bool st_pattern_dynamic::match(const std::string& str, int& pos) const{
-        bool matched;
+        bool matched = false;
         if(right == nullptr){
             st::set(id, str.substr(pos));
             pos = str.size();
@@ -95,11 +107,11 @@ namespace cpt{
             int size = str.size();
             while(!matched && pos+trynum < size){
                 pos = shortest ? oldpos+trynum : size-trynum;
-                matched = right->match(str,pos);
+                matched = right->match(str,pos); // pos modified
                 if(matched){
                     auto v = str.substr(oldpos,shortest ? trynum : pos-oldpos-trynum);
                     st::set(id, v);
-                }else{
+                }else{ // pos ends loop unmodified unless matched
                     pos = oldpos;
                     trynum++;
                 }
@@ -118,7 +130,9 @@ namespace cpt{
         return frag;
     }
     std::string st_pattern_optional::compose () const{
-        return rand() % 2 == 0 ? subpattern->compose() : "";
+        std::string ret = (rand() % 2 == 0 ? left->compose() : ""); 
+        ret.append(right != nullptr ? right->compose() : "");
+        return ret;
     }
     std::string st_pattern_function::compose () const{
         return exp->evaluate();
@@ -140,7 +154,10 @@ namespace cpt{
      */
     std::string st_pattern_optional::toString () const{
         std::stringstream ss;
-        ss << '[' << subpattern->toString() << ']';
+        ss << '[' << left->toString() << ']';
+        if(right != nullptr){
+            ss << right->toString();
+        }
         return ss.str();
     }
     std::string st_pattern_composed::toString () const{
