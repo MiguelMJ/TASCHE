@@ -1,0 +1,15 @@
+{
+"init":"",
+"responses":[{
+        "input":"uno >var[ tres cuatro]>.foo cinco",
+        "condition":"1",
+        "output":"OK ''(''$var'')'' ''(''$foo'')''"
+    },{
+        "input":"nnn >.eso[a]",
+        "condition":"1",
+        "output":"OK ''(''$eso'')''"
+    },{
+        "condition":"1",
+        "output":"X"
+    }]
+}

@@ -25,6 +25,9 @@
 #include "pattern.hpp"
 
 namespace cpt{
+    /*
+     * match
+     */
     bool st_pattern::match(const std::string& str){
         int pos = 0;
         return match(str,pos) && pos == str.size(); 
@@ -104,6 +107,9 @@ namespace cpt{
         }
         return matched;
     }
+    /*
+     * compose
+     */
     std::random_device rand;
     std::string st_pattern_composed::compose () const{
         return left->compose() + right->compose();
@@ -129,6 +135,9 @@ namespace cpt{
             ss << right->compose();
         return ss.str();
     }
+    /*
+     * toString
+     */
     std::string st_pattern_optional::toString () const{
         std::stringstream ss;
         ss << '[' << subpattern->toString() << ']';
