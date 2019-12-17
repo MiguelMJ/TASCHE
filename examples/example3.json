@@ -1,11 +1,35 @@
 {
 "init":"",
 "responses":[{
-        "input":"uno >var[ tres cuatro]>.foo cinco",
+        "input":"1 >.var[ 3 4] >.foo 6",
         "condition":"1",
-        "output":"OK ''(''$var'')'' ''(''$foo'')''"
+        "output":
+"OK  ''short $var = ''$var
+    ''short $foo = ''$foo"
     },{
-        "input":"nnn >.eso[a]",
+        "input":"1 >.var[ 3 4] >foo 6",
+        "condition":"1",
+        "output":
+"OK  ''short $var = ''$var 
+    ''long $foo  = ''$foo"
+    },{
+        "input":"1 >var[ 3 4] >.foo 6",
+        "condition":"1",
+        "output":
+"OK  ''long $var  = ''$var 
+    ''short $foo = ''$foo"
+    },{
+        "input":"1 >var[ 3 4] >foo 6",
+        "condition":"1",
+        "output":
+"OK  ''long $var  = ''$var 
+    ''long $foo  = ''$foo"
+    },{
+        "input":"mm >esto yy >aquello tt",
+        "condition":"1",
+        "output":"OK''(''$esto'') (''$aquello'')''"
+    },{
+        "input":"nnn >.eso[a] i",
         "condition":"1",
         "output":"OK ''(''$eso'')''"
     },{
