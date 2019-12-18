@@ -11,7 +11,7 @@ TASCHE no tiene dependencias externas. Los scripts necesarios para la compilaci�
 
 ### Pendiente
 - Permitir una distancia de edit en el matching (autómata de Levenshtein)
-- Depurar la interacción entre variables dinámicas y patrones omisibles
+- Depurar la interacción entre variables dinámicas y patrones omisibles (branch dynamic_and_omisibles)
 - Implementar la opción de cachear las expresiones en una misma búsqueda
 - Optimizar los recursos de las expresiones mediante una análisis semántico post-parseo.
 - Optimizar los algoritmos de comparación (evitar el uso de substr)
