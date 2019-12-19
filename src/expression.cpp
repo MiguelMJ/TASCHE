@@ -24,6 +24,7 @@
 
 #include "expression.hpp"
 namespace cpt{
+    std::map<std::string, userfunc> functions;
     void semantic_error(){
         throw std::runtime_error("semantic error in expression");
     }
@@ -36,26 +37,26 @@ namespace cpt{
         }
         return ret;
     }
-    bool expressionST::evaluateBool()const{
+    bool st_expression::evaluateBool()const{
         return b(evaluate());
     }
-    std::string expressionST_comp::evaluate()const{
+    std::string st_expression_comp::evaluate()const{
         e1->evaluate();
         return e2->evaluate();
     }
-    bool expressionST_neg::evaluateBool()const{
+    bool st_expression_neg::evaluateBool()const{
         return !b(evaluate());
     }
-    std::string expressionST_neg::evaluate()const{
+    std::string st_expression_neg::evaluate()const{
         return exp->evaluate();
     }
-    std::string expressionST_numeric::evaluate()const{
+    std::string st_expression_numeric::evaluate()const{
         return std::to_string(evaluateNum());
     }
-    int expressionST_number::evaluateNum()const{
+    int st_expression_number::evaluateNum()const{
         return value;
     }
-    int expressionST_num_cast::evaluateNum()const{
+    int st_expression_num_cast::evaluateNum()const{
         int ret;
         try{
             ret = std::stoi(exp->evaluate());
@@ -64,7 +65,7 @@ namespace cpt{
         }
         return ret;
     }
-    int expressionST_num_op::evaluateNum()const{
+    int st_expression_num_op::evaluateNum()const{
         int v1, v2, ret;
         v1 = op1->evaluateNum();
         v2 = op2->evaluateNum();
@@ -114,13 +115,20 @@ namespace cpt{
         }
         return ret;
     }
-    std::string expressionST_string::evaluate() const{
+    std::string st_expression_string::evaluate() const{
         return value;
     }
-    std::string expressionST_variable::evaluate() const{
+    std::string st_expression_userfunc::evaluate() const{
+        std::vector<std::string> argv;
+        for(auto e : *args){
+            argv.push_back(e->evaluate());
+        }
+        return functions[value](argv);
+    }
+    std::string st_expression_variable::evaluate() const{
         return st::get(value);
     }
-    std::string expressionST_str_op::evaluate() const{
+    std::string st_expression_str_op::evaluate() const{
         std::string ret;
         switch (operation){
             case exp::oper::AND:
@@ -140,7 +148,7 @@ namespace cpt{
         }
         return ret;
     }
-    std::string expressionST_asignation::evaluate()const{
+    std::string st_expression_asignation::evaluate()const{
         st::set(id,value->evaluate());
         return "";
     }

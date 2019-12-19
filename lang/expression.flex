@@ -74,6 +74,7 @@ std::stringstream token;
 [0-9]+  {ee_yylval.ival = atoi(yytext);
          return NUMBER;
         }
+            
 \@{ID}     {
             auto ret = new std::string(yytext);
             *ret = ret->substr(1);
@@ -86,7 +87,13 @@ std::stringstream token;
             ee_yylval.strval = ret;
             return NUMVAR;
            }
-[+\-*/^%=;]  {return yytext[0];}
+{ID}       {
+            auto ret = new std::string(yytext);
+            ee_yylval.strval = ret;
+            return USERFUNC;
+           }
+
+[+\-*/^%=;(),]  {return yytext[0];}
 !          {return NOT;}
 &&         {return AND;}
 "||"       {return OR;}

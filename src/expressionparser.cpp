@@ -75,15 +75,15 @@
 
 #include "expression.hpp"
 using namespace cpt;
-expressionST* makestrop(expressionST* e1,exp::oper o,expressionST* e2){
-    auto exstrop = new struct expressionST_str_op;
+st_expression* makestrop(st_expression* e1,exp::oper o,st_expression* e2){
+    auto exstrop = new struct st_expression_str_op;
     exstrop -> operation = o;
     exstrop -> op1 = expression(e1);
     exstrop -> op2 = expression(e2);
     return exstrop;
 }
-expressionST_numeric* makenumop(expressionST_numeric* e1,exp::oper o,expressionST_numeric* e2){
-    auto exnumop = new struct expressionST_num_op;
+st_expression_numeric* makenumop(st_expression_numeric* e1,exp::oper o,st_expression_numeric* e2){
+    auto exnumop = new struct st_expression_num_op;
     exnumop -> operation = o;
     exnumop -> op1 = expressionNum(e1);
     exnumop -> op2 = expressionNum(e2);
@@ -182,7 +182,8 @@ void ee_yyerror(const char* msg);
     VALUE = 269,
     STRVAR = 270,
     NUMVAR = 271,
-    NOT = 272
+    USERFUNC = 272,
+    NOT = 273
   };
 #endif
 
@@ -194,11 +195,12 @@ union EE_YYSTYPE
 #line 52 "lang/expression.bison" /* yacc.c:355  */
 
     int ival;
-    std::string* strval;
-    expressionST* expval;
-    expressionST_numeric* expnumval;
+    std::string *strval;
+    std::vector<expression> *vecval;
+    st_expression* expval;
+    st_expression_numeric* expnumval;
 
-#line 202 "src/expressionparser.cpp" /* yacc.c:355  */
+#line 204 "src/expressionparser.cpp" /* yacc.c:355  */
 };
 
 typedef union EE_YYSTYPE EE_YYSTYPE;
@@ -215,7 +217,7 @@ int ee_yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 219 "src/expressionparser.cpp" /* yacc.c:358  */
+#line 221 "src/expressionparser.cpp" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -455,23 +457,23 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  17
+#define YYFINAL  19
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   79
+#define YYLAST   86
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  28
+#define YYNTOKENS  30
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  5
+#define YYNNTS  7
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  30
+#define YYNRULES  35
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  55
+#define YYNSTATES  63
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   272
+#define YYMAXUTOK   273
 
 #define YYTRANSLATE(YYX)                                                \
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -483,13 +485,13 @@ static const yytype_uint8 yytranslate[] =
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,    23,     2,     2,
-      25,    27,    21,    19,     2,    20,     2,    22,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,    17,
-       2,    26,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,    24,     2,     2,
+      26,    28,    22,    20,    29,    21,     2,    23,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,    18,
+       2,    27,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,    24,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,    25,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -507,17 +509,17 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16,    18
+      15,    16,    17,    19
 };
 
 #if EE_YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    80,    80,    82,    83,    89,    97,   102,   104,   109,
-     110,   114,   115,   116,   117,   118,   124,   128,   132,   133,
-     134,   135,   136,   137,   138,   139,   140,   141,   142,   143,
-     144
+       0,    82,    82,    84,    85,    91,    99,   104,   106,   111,
+     112,   116,   117,   118,   119,   120,   125,   133,   134,   136,
+     137,   139,   143,   147,   148,   149,   150,   151,   152,   153,
+     154,   155,   156,   157,   158,   159
 };
 #endif
 
@@ -527,9 +529,10 @@ static const yytype_uint8 yyrline[] =
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "AND", "OR", "SNE", "SEQ", "EQ", "NE",
-  "GE", "GT", "LE", "LT", "NUMBER", "VALUE", "STRVAR", "NUMVAR", "';'",
-  "NOT", "'+'", "'-'", "'*'", "'/'", "'%'", "'^'", "'('", "'='", "')'",
-  "$accept", "axiom", "program", "exp", "nexp", YY_NULLPTR
+  "GE", "GT", "LE", "LT", "NUMBER", "VALUE", "STRVAR", "NUMVAR",
+  "USERFUNC", "';'", "NOT", "'+'", "'-'", "'*'", "'/'", "'%'", "'^'",
+  "'('", "'='", "')'", "','", "$accept", "axiom", "program", "exp",
+  "arglist", "arglist2", "nexp", YY_NULLPTR
 };
 #endif
 
@@ -539,15 +542,15 @@ static const char *const yytname[] =
 static const yytype_uint16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,   266,   267,   268,   269,   270,   271,    59,   272,    43,
-      45,    42,    47,    37,    94,    40,    61,    41
+     265,   266,   267,   268,   269,   270,   271,   272,    59,   273,
+      43,    45,    42,    47,    37,    94,    40,    61,    41,    44
 };
 # endif
 
-#define YYPACT_NINF -23
+#define YYPACT_NINF -12
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-23)))
+  (!!((Yystate) == (-12)))
 
 #define YYTABLE_NINF -1
 
@@ -558,12 +561,13 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      30,   -23,   -23,   -22,     7,    36,    36,    23,    43,    24,
-      -2,    36,    36,   -23,   -23,    72,    -3,   -23,    30,    36,
-      36,    36,    36,    22,    22,    22,    22,    22,    22,    22,
-      22,    22,    22,    22,    22,    24,    24,   -23,   -23,    72,
-      31,   -23,   -23,    -8,    -8,    -8,    -8,    -8,    -8,    35,
-      35,    52,    29,    29,    29
+      25,   -12,   -12,    16,    18,    28,    33,    33,    58,    39,
+      57,    12,    33,    33,    33,   -12,   -12,    20,    -1,   -12,
+      25,    33,    33,    33,    33,    40,    40,    40,    40,    40,
+      40,    40,    40,    40,    40,    40,    40,    57,    57,    57,
+      36,    51,   -12,   -12,    20,    76,   -12,   -12,   -11,   -11,
+     -11,   -11,   -11,   -11,     6,     6,    60,    61,    61,    61,
+     -12,    33,    57
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -571,24 +575,25 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       7,    16,     8,    15,    30,     0,     0,     0,     2,     3,
-       9,     0,     0,    15,    30,    10,     0,     1,     7,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     4,     5,    17,     6,    11,
-      12,    14,    13,    24,    25,    26,    27,    28,    29,    18,
-      19,    20,    21,    22,    23
+       7,    21,     8,    15,    35,     0,     0,     0,     0,     2,
+       3,     9,     0,     0,    18,    15,    35,    10,     0,     1,
+       7,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     4,     5,    20,
+       0,    17,    22,     6,    11,    12,    14,    13,    29,    30,
+      31,    32,    33,    34,    23,    24,    25,    26,    27,    28,
+      16,     0,    19
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -23,   -23,    61,    20,    39
+     -12,   -12,    45,    -6,   -12,   -12,    42
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     7,     8,     9,    10
+      -1,     8,     9,    10,    40,    41,    11
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -596,56 +601,59 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-      19,    20,    21,    22,    11,    23,    24,    25,    26,    27,
-      28,    29,    30,    31,    32,    33,    34,    29,    30,    31,
-      32,    33,    34,    17,    37,    15,    16,    19,    20,    21,
-      22,    35,    36,    12,    19,     1,    21,    22,    14,    39,
-      40,    41,    42,     1,     2,     3,     4,     6,     5,     1,
-       2,    13,    14,    34,     5,     6,    31,    32,    33,    34,
-      18,     6,    43,    44,    45,    46,    47,    48,    49,    50,
-      51,    52,    53,    54,    32,    33,    34,    21,    22,    38
+      17,    18,    21,    22,    23,    24,    37,    38,    39,    31,
+      32,    33,    34,    35,    36,    44,    45,    46,    47,    25,
+      26,    27,    28,    29,    30,    23,    24,    42,    33,    34,
+      35,    36,    31,    32,    33,    34,    35,    36,     1,     2,
+       3,     4,     5,    12,     6,    13,     1,     2,    15,    16,
+       5,     7,     6,     1,    14,    62,    16,    20,    19,     7,
+      21,    22,    23,    24,    60,    43,     7,    48,    49,    50,
+      51,    52,    53,    54,    55,    56,    57,    58,    59,    21,
+      61,    23,    24,    34,    35,    36,    36
 };
 
 static const yytype_uint8 yycheck[] =
 {
-       3,     4,     5,     6,    26,     7,     8,     9,    10,    11,
-      12,    19,    20,    21,    22,    23,    24,    19,    20,    21,
-      22,    23,    24,     0,    27,     5,     6,     3,     4,     5,
-       6,    11,    12,    26,     3,    13,     5,     6,    16,    19,
-      20,    21,    22,    13,    14,    15,    16,    25,    18,    13,
-      14,    15,    16,    24,    18,    25,    21,    22,    23,    24,
-      17,    25,    23,    24,    25,    26,    27,    28,    29,    30,
-      31,    32,    33,    34,    22,    23,    24,     5,     6,    18
+       6,     7,     3,     4,     5,     6,    12,    13,    14,    20,
+      21,    22,    23,    24,    25,    21,    22,    23,    24,     7,
+       8,     9,    10,    11,    12,     5,     6,    28,    22,    23,
+      24,    25,    20,    21,    22,    23,    24,    25,    13,    14,
+      15,    16,    17,    27,    19,    27,    13,    14,    15,    16,
+      17,    26,    19,    13,    26,    61,    16,    18,     0,    26,
+       3,     4,     5,     6,    28,    20,    26,    25,    26,    27,
+      28,    29,    30,    31,    32,    33,    34,    35,    36,     3,
+      29,     5,     6,    23,    24,    25,    25
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,    13,    14,    15,    16,    18,    25,    29,    30,    31,
-      32,    26,    26,    15,    16,    31,    31,     0,    17,     3,
-       4,     5,     6,     7,     8,     9,    10,    11,    12,    19,
-      20,    21,    22,    23,    24,    31,    31,    27,    30,    31,
-      31,    31,    31,    32,    32,    32,    32,    32,    32,    32,
-      32,    32,    32,    32,    32
+       0,    13,    14,    15,    16,    17,    19,    26,    31,    32,
+      33,    36,    27,    27,    26,    15,    16,    33,    33,     0,
+      18,     3,     4,     5,     6,     7,     8,     9,    10,    11,
+      12,    20,    21,    22,    23,    24,    25,    33,    33,    33,
+      34,    35,    28,    32,    33,    33,    33,    33,    36,    36,
+      36,    36,    36,    36,    36,    36,    36,    36,    36,    36,
+      28,    29,    33
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    28,    29,    30,    30,    30,    30,    30,    31,    31,
-      31,    31,    31,    31,    31,    31,    32,    32,    32,    32,
-      32,    32,    32,    32,    32,    32,    32,    32,    32,    32,
-      32
+       0,    30,    31,    32,    32,    32,    32,    32,    33,    33,
+      33,    33,    33,    33,    33,    33,    33,    34,    34,    35,
+      35,    36,    36,    36,    36,    36,    36,    36,    36,    36,
+      36,    36,    36,    36,    36,    36
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
        0,     2,     1,     1,     3,     3,     3,     0,     1,     1,
-       2,     3,     3,     3,     3,     1,     1,     3,     3,     3,
-       3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
-       1
+       2,     3,     3,     3,     3,     1,     4,     1,     0,     3,
+       1,     1,     3,     3,     3,     3,     3,     3,     3,     3,
+       3,     3,     3,     3,     3,     1
 };
 
 
@@ -1322,220 +1330,256 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 80 "lang/expression.bison" /* yacc.c:1646  */
+#line 82 "lang/expression.bison" /* yacc.c:1646  */
     {parsedExpression = expression((yyvsp[0].expval));}
-#line 1328 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1336 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 82 "lang/expression.bison" /* yacc.c:1646  */
+#line 84 "lang/expression.bison" /* yacc.c:1646  */
     {(yyval.expval) = (yyvsp[0].expval);}
-#line 1334 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1342 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 83 "lang/expression.bison" /* yacc.c:1646  */
-    {auto exas = new expressionST_asignation;
+#line 85 "lang/expression.bison" /* yacc.c:1646  */
+    {auto exas = new st_expression_asignation;
                           exas -> id = *(yyvsp[-2].strval);
                           exas -> value = expression((yyvsp[0].expval));
                           (yyval.expval) = exas;
                           delete (yyvsp[-2].strval);
                          }
-#line 1345 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1353 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 89 "lang/expression.bison" /* yacc.c:1646  */
-    {auto excast = new expressionST_num_cast;
+#line 91 "lang/expression.bison" /* yacc.c:1646  */
+    {auto excast = new st_expression_num_cast;
                           excast -> exp = expression((yyvsp[0].expval));
-                          auto exas = new expressionST_asignation;
+                          auto exas = new st_expression_asignation;
                           exas -> id = *(yyvsp[-2].strval);
                           exas -> value = expression(excast);
                           (yyval.expval) = exas;
                           delete (yyvsp[-2].strval);
                          }
-#line 1358 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1366 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 97 "lang/expression.bison" /* yacc.c:1646  */
-    {auto excomp = new expressionST_comp;
+#line 99 "lang/expression.bison" /* yacc.c:1646  */
+    {auto excomp = new st_expression_comp;
                                excomp -> e1 = expression((yyvsp[-2].expval));
                                excomp -> e2 = expression((yyvsp[0].expval));
                                (yyval.expval) = excomp;
                                 }
-#line 1368 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1376 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 102 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.expval) = new expressionST_string;}
-#line 1374 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 104 "lang/expression.bison" /* yacc.c:1646  */
+    {(yyval.expval) = new st_expression_string;}
+#line 1382 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 104 "lang/expression.bison" /* yacc.c:1646  */
-    {auto exstr = new expressionST_string;
+#line 106 "lang/expression.bison" /* yacc.c:1646  */
+    {auto exstr = new st_expression_string;
              exstr -> value = *(yyvsp[0].strval);
              (yyval.expval) = exstr;
              delete (yyvsp[0].strval);
             }
-#line 1384 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1392 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 109 "lang/expression.bison" /* yacc.c:1646  */
+#line 111 "lang/expression.bison" /* yacc.c:1646  */
     {(yyval.expval) = (yyvsp[0].expnumval);}
-#line 1390 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1398 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 110 "lang/expression.bison" /* yacc.c:1646  */
-    {auto exne = new expressionST_neg;
+#line 112 "lang/expression.bison" /* yacc.c:1646  */
+    {auto exne = new st_expression_neg;
                exne->exp = expression((yyvsp[0].expval));
                (yyval.expval) = exne;
                 }
-#line 1399 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1407 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 114 "lang/expression.bison" /* yacc.c:1646  */
+#line 116 "lang/expression.bison" /* yacc.c:1646  */
     {(yyval.expval) = makestrop((yyvsp[-2].expval),exp::oper::AND,(yyvsp[0].expval));}
-#line 1405 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1413 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 115 "lang/expression.bison" /* yacc.c:1646  */
+#line 117 "lang/expression.bison" /* yacc.c:1646  */
     {(yyval.expval) = makestrop((yyvsp[-2].expval),exp::oper::OR,(yyvsp[0].expval));}
-#line 1411 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1419 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 116 "lang/expression.bison" /* yacc.c:1646  */
+#line 118 "lang/expression.bison" /* yacc.c:1646  */
     {(yyval.expval) = makestrop((yyvsp[-2].expval),exp::oper::SEQ,(yyvsp[0].expval));}
-#line 1417 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1425 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 117 "lang/expression.bison" /* yacc.c:1646  */
+#line 119 "lang/expression.bison" /* yacc.c:1646  */
     {(yyval.expval) = makestrop((yyvsp[-2].expval),exp::oper::SNE,(yyvsp[0].expval));}
-#line 1423 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1431 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 118 "lang/expression.bison" /* yacc.c:1646  */
-    {auto exvar = new expressionST_variable;
+#line 120 "lang/expression.bison" /* yacc.c:1646  */
+    {auto exvar = new st_expression_variable;
                    exvar -> value = *(yyvsp[0].strval);
                    (yyval.expval) = exvar;
                    delete (yyvsp[0].strval);
                    }
-#line 1433 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1441 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 124 "lang/expression.bison" /* yacc.c:1646  */
-    {auto exnum = new expressionST_number;
-                     exnum -> value = (yyvsp[0].ival);
-                     (yyval.expnumval) = exnum;
-                    }
-#line 1442 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 125 "lang/expression.bison" /* yacc.c:1646  */
+    {
+                    auto exuf = new st_expression_userfunc;
+                    exuf->value = *(yyvsp[-3].strval);
+                    exuf->args = arg_list((yyvsp[-1].vecval));
+                    (yyval.expval) = exuf;
+                    delete (yyvsp[-3].strval);
+                }
+#line 1453 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 128 "lang/expression.bison" /* yacc.c:1646  */
-    {auto excast = new expressionST_num_cast;
-                     excast -> exp = expression((yyvsp[-1].expval));
-                     (yyval.expnumval) = excast;
-                    }
-#line 1451 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 133 "lang/expression.bison" /* yacc.c:1646  */
+    {(yyval.vecval) = (yyvsp[0].vecval);}
+#line 1459 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 132 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::SUM, (yyvsp[0].expnumval));}
-#line 1457 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 134 "lang/expression.bison" /* yacc.c:1646  */
+    {(yyval.vecval) = new std::vector<expression>;}
+#line 1465 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 133 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::DIF, (yyvsp[0].expnumval));}
-#line 1463 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 136 "lang/expression.bison" /* yacc.c:1646  */
+    {(yyvsp[-2].vecval)->push_back(expression((yyvsp[0].expval))); (yyval.vecval) = (yyvsp[-2].vecval);}
+#line 1471 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 134 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::MUL, (yyvsp[0].expnumval));}
-#line 1469 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 137 "lang/expression.bison" /* yacc.c:1646  */
+    {(yyval.vecval) = new std::vector<expression>; (yyval.vecval)->push_back(expression((yyvsp[0].expval)));}
+#line 1477 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 135 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::DIV, (yyvsp[0].expnumval));}
-#line 1475 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 139 "lang/expression.bison" /* yacc.c:1646  */
+    {auto exnum = new st_expression_number;
+                     exnum -> value = (yyvsp[0].ival);
+                     (yyval.expnumval) = exnum;
+                    }
+#line 1486 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 136 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::MOD, (yyvsp[0].expnumval));}
-#line 1481 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 143 "lang/expression.bison" /* yacc.c:1646  */
+    {auto excast = new st_expression_num_cast;
+                     excast -> exp = expression((yyvsp[-1].expval));
+                     (yyval.expnumval) = excast;
+                    }
+#line 1495 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 137 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::POW, (yyvsp[0].expnumval));}
-#line 1487 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 147 "lang/expression.bison" /* yacc.c:1646  */
+    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::SUM, (yyvsp[0].expnumval));}
+#line 1501 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 138 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::EQ, (yyvsp[0].expnumval));}
-#line 1493 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 148 "lang/expression.bison" /* yacc.c:1646  */
+    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::DIF, (yyvsp[0].expnumval));}
+#line 1507 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 139 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::NE, (yyvsp[0].expnumval));}
-#line 1499 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 149 "lang/expression.bison" /* yacc.c:1646  */
+    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::MUL, (yyvsp[0].expnumval));}
+#line 1513 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 140 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::GE, (yyvsp[0].expnumval));}
-#line 1505 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 150 "lang/expression.bison" /* yacc.c:1646  */
+    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::DIV, (yyvsp[0].expnumval));}
+#line 1519 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 141 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::GT, (yyvsp[0].expnumval));}
-#line 1511 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 151 "lang/expression.bison" /* yacc.c:1646  */
+    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::MOD, (yyvsp[0].expnumval));}
+#line 1525 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 142 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::LE, (yyvsp[0].expnumval));}
-#line 1517 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 152 "lang/expression.bison" /* yacc.c:1646  */
+    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::POW, (yyvsp[0].expnumval));}
+#line 1531 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 143 "lang/expression.bison" /* yacc.c:1646  */
-    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::LT, (yyvsp[0].expnumval));}
-#line 1523 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 153 "lang/expression.bison" /* yacc.c:1646  */
+    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::EQ, (yyvsp[0].expnumval));}
+#line 1537 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 144 "lang/expression.bison" /* yacc.c:1646  */
-    {auto exvar = new expressionST_variable;
+#line 154 "lang/expression.bison" /* yacc.c:1646  */
+    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::NE, (yyvsp[0].expnumval));}
+#line 1543 "src/expressionparser.cpp" /* yacc.c:1646  */
+    break;
+
+  case 31:
+#line 155 "lang/expression.bison" /* yacc.c:1646  */
+    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::GE, (yyvsp[0].expnumval));}
+#line 1549 "src/expressionparser.cpp" /* yacc.c:1646  */
+    break;
+
+  case 32:
+#line 156 "lang/expression.bison" /* yacc.c:1646  */
+    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::GT, (yyvsp[0].expnumval));}
+#line 1555 "src/expressionparser.cpp" /* yacc.c:1646  */
+    break;
+
+  case 33:
+#line 157 "lang/expression.bison" /* yacc.c:1646  */
+    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::LE, (yyvsp[0].expnumval));}
+#line 1561 "src/expressionparser.cpp" /* yacc.c:1646  */
+    break;
+
+  case 34:
+#line 158 "lang/expression.bison" /* yacc.c:1646  */
+    {(yyval.expnumval) = makenumop((yyvsp[-2].expnumval),exp::oper::LT, (yyvsp[0].expnumval));}
+#line 1567 "src/expressionparser.cpp" /* yacc.c:1646  */
+    break;
+
+  case 35:
+#line 159 "lang/expression.bison" /* yacc.c:1646  */
+    {auto exvar = new st_expression_variable;
                      exvar -> value = *(yyvsp[0].strval);
-                     auto excast = new expressionST_num_cast;
+                     auto excast = new st_expression_num_cast;
                      excast -> exp = expression(exvar);
                      (yyval.expnumval) = excast;
                      delete (yyvsp[0].strval);
                     }
-#line 1535 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1579 "src/expressionparser.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 1539 "src/expressionparser.cpp" /* yacc.c:1646  */
+#line 1583 "src/expressionparser.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1763,7 +1807,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 153 "lang/expression.bison" /* yacc.c:1906  */
+#line 168 "lang/expression.bison" /* yacc.c:1906  */
 
 void ee_yyerror(const char* msg){
     throw std::runtime_error("expression parser:"+std::string(msg));

@@ -146,6 +146,9 @@ namespace cpt{
         st::commit(); // we add to the global table the changes saved during the response-
         return ret.str();
     }
+    void loadFunctions(){
+        functions["time"] = fun::timeF;
+    }
     void launch(){
         st::scope();
         st::set("_TA_RUNNING_","1");

@@ -65,6 +65,7 @@ namespace cpt{
     };
     void loadSpecs(const std::string& filename, bool verbose=false);
     std::string respond(const std::string& str);
+    void loadFunctions();
     void launch();
     
 }

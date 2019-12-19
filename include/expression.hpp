@@ -27,6 +27,7 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 #include <exception>
 #include "symboltable.hpp"
 #include "util.hpp"
@@ -41,51 +42,60 @@ namespace cpt{
     typedef struct {
         virtual bool evaluateBool() const;
         virtual std::string evaluate() const=0;
-    } expressionST;
-    typedef std::shared_ptr<expressionST> expression;
-    struct expressionST_comp : expressionST{
+    } st_expression;
+    
+    typedef std::shared_ptr<st_expression> expression;
+    typedef std::shared_ptr<std::vector<expression> > arg_list;
+    typedef std::string (*userfunc)(const std::vector<std::string>&);
+    extern std::map<std::string, userfunc> functions;
+    
+    struct st_expression_comp : st_expression{
         expression e1, e2;
         virtual std::string evaluate() const;
     };
-    struct expressionST_neg : expressionST{
+    struct st_expression_neg : st_expression{
         expression exp;
         virtual bool evaluateBool() const;
         virtual std::string evaluate() const;
     };
-    struct expressionST_text : expressionST{
+    struct st_expression_text : st_expression{
         virtual std::string evaluate() const=0;
     };
-    typedef struct : expressionST{
+    typedef struct : st_expression{
         virtual std::string evaluate() const;
         virtual int evaluateNum() const=0;
-    } expressionST_numeric;
-    typedef std::shared_ptr<expressionST_numeric> expressionNum;
-    struct expressionST_number : expressionST_numeric{
+    } st_expression_numeric;
+    typedef std::shared_ptr<st_expression_numeric> expressionNum;
+    struct st_expression_number : st_expression_numeric{
         int value;
         virtual int evaluateNum() const;
     };
-    struct expressionST_num_cast : expressionST_numeric{
+    struct st_expression_num_cast : st_expression_numeric{
         expression exp;
         virtual int evaluateNum() const;
     };
-    struct expressionST_num_op : expressionST_numeric{
+    struct st_expression_num_op : st_expression_numeric{
         exp::oper operation;
         expressionNum op1, op2;
         virtual int evaluateNum() const;
     };
-    struct expressionST_string : expressionST_text{
+    struct st_expression_string : st_expression_text{
         std::string value;
         virtual std::string evaluate() const;
     };
-    struct expressionST_variable : expressionST_string{
+    struct st_expression_variable : st_expression_string{
         virtual std::string evaluate() const;
     };
-    struct expressionST_str_op : expressionST_text{
+    struct st_expression_userfunc : st_expression_string{
+        arg_list args;
+        virtual std::string evaluate() const;
+    };
+    struct st_expression_str_op : st_expression_text{
         exp::oper operation;
         expression op1, op2;
         virtual std::string evaluate() const;
     };
-    struct expressionST_asignation : expressionST{
+    struct st_expression_asignation : st_expression{
         std::string id;
         expression value;
         virtual std::string evaluate() const;

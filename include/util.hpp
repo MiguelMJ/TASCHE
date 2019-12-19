@@ -30,12 +30,16 @@
 #include <fstream>
 #include <iostream>
 #include <algorithm>
+#include <ctime>
 #include <exception>
 
 namespace cpt{
     bool compare_case_insensitive (std::string s1, std::string s2);
     void myassert(bool ass, const std::string& msg);
     std::string preprocesJSONFile(const std::string& filename);
+    namespace fun{
+        std::string timeF(const std::vector<std::string>&);
+    }
 }
 
 #endif

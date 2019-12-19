@@ -102,7 +102,8 @@ void ee_yyerror(const char* msg);
     VALUE = 269,
     STRVAR = 270,
     NUMVAR = 271,
-    NOT = 272
+    USERFUNC = 272,
+    NOT = 273
   };
 #endif
 
@@ -114,11 +115,12 @@ union EE_YYSTYPE
 #line 52 "lang/expression.bison" /* yacc.c:1909  */
 
     int ival;
-    std::string* strval;
-    expressionST* expval;
-    expressionST_numeric* expnumval;
+    std::string *strval;
+    std::vector<expression> *vecval;
+    st_expression* expval;
+    st_expression_numeric* expnumval;
 
-#line 122 "include/expressionparser.hpp" /* yacc.c:1909  */
+#line 124 "include/expressionparser.hpp" /* yacc.c:1909  */
 };
 
 typedef union EE_YYSTYPE EE_YYSTYPE;

@@ -65,6 +65,7 @@ int main(int argc, char** argv){
             for(int i = argi; i < argc; i++){
                 loadSpecs(argv[i], verbose);
             }
+            loadFunctions();
             launch();
         }else{
             cout << "Provide specification files" << endl;

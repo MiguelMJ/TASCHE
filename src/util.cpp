@@ -25,6 +25,13 @@
 #include "util.hpp"
 
 namespace cpt{
+    void expect_argc(int actual, int expected, const std::string& name){
+        if(actual != expected){
+            std::stringstream ss;
+            ss << name << " expects " << expected << " argument/s";
+            throw std::runtime_error(ss.str());
+        }
+    }
     bool compare_case_insensitive (std::string s1, std::string s2){
         std::transform(s1.begin(), s1.end(), s1.begin(), ::tolower);
         std::transform(s2.begin(), s2.end(), s2.begin(), ::tolower);
@@ -57,5 +64,18 @@ namespace cpt{
         }
         fin.close();
         return ret.str();
+    }
+    namespace fun{
+        std::string timeF(const std::vector<std::string>& args){
+            expect_argc(args.size(),1,"time");
+            time_t rawtime;
+            struct tm *timeinfo;
+            char buffer[80];
+            
+            time(&rawtime);
+            timeinfo = localtime(&rawtime);
+            strftime(buffer,80,args[0].c_str(),timeinfo);
+            return std::string(buffer);
+        }
     }
 }

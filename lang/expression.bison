@@ -33,15 +33,15 @@ void ee_yyerror(const char* msg);
 %{
 #include "expression.hpp"
 using namespace cpt;
-expressionST* makestrop(expressionST* e1,exp::oper o,expressionST* e2){
-    auto exstrop = new struct expressionST_str_op;
+st_expression* makestrop(st_expression* e1,exp::oper o,st_expression* e2){
+    auto exstrop = new struct st_expression_str_op;
     exstrop -> operation = o;
     exstrop -> op1 = expression(e1);
     exstrop -> op2 = expression(e2);
     return exstrop;
 }
-expressionST_numeric* makenumop(expressionST_numeric* e1,exp::oper o,expressionST_numeric* e2){
-    auto exnumop = new struct expressionST_num_op;
+st_expression_numeric* makenumop(st_expression_numeric* e1,exp::oper o,st_expression_numeric* e2){
+    auto exnumop = new struct st_expression_num_op;
     exnumop -> operation = o;
     exnumop -> op1 = expressionNum(e1);
     exnumop -> op2 = expressionNum(e2);
@@ -51,18 +51,20 @@ expressionST_numeric* makenumop(expressionST_numeric* e1,exp::oper o,expressionS
 %define api.prefix {ee_yy}
 %union{
     int ival;
-    std::string* strval;
-    expressionST* expval;
-    expressionST_numeric* expnumval;
+    std::string *strval;
+    std::vector<expression> *vecval;
+    st_expression* expval;
+    st_expression_numeric* expnumval;
 }
 %token <void> AND OR SNE SEQ EQ NE GE GT LE LT 
 %token <ival> NUMBER
-%token <strval> VALUE STRVAR NUMVAR
+%token <strval> VALUE STRVAR NUMVAR USERFUNC
 
 %type <void> axiom
 %type <expval> program
 %type <expval> exp
 %type <expnumval> nexp
+%type <vecval> arglist arglist2
 
 %left ';'
 %left OR
@@ -80,34 +82,34 @@ expressionST_numeric* makenumop(expressionST_numeric* e1,exp::oper o,expressionS
 axiom : program {parsedExpression = expression($1);}
       ;
 program : exp            {$$ = $1;}
-        | STRVAR '=' exp {auto exas = new expressionST_asignation;
+        | STRVAR '=' exp {auto exas = new st_expression_asignation;
                           exas -> id = *$1;
                           exas -> value = expression($3);
                           $$ = exas;
                           delete $1;
                          }
-        | NUMVAR '=' exp {auto excast = new expressionST_num_cast;
+        | NUMVAR '=' exp {auto excast = new st_expression_num_cast;
                           excast -> exp = expression($3);
-                          auto exas = new expressionST_asignation;
+                          auto exas = new st_expression_asignation;
                           exas -> id = *$1;
                           exas -> value = expression(excast);
                           $$ = exas;
                           delete $1;
                          }
-        | program ';' program {auto excomp = new expressionST_comp;
+        | program ';' program {auto excomp = new st_expression_comp;
                                excomp -> e1 = expression($1);
                                excomp -> e2 = expression($3);
                                $$ = excomp;
                                 }
-        | {$$ = new expressionST_string;}
+        | {$$ = new st_expression_string;}
         ;
-exp : VALUE {auto exstr = new expressionST_string;
+exp : VALUE {auto exstr = new st_expression_string;
              exstr -> value = *$1;
              $$ = exstr;
              delete $1;
             }
     | nexp  {$$ = $1;}
-    | NOT exp {auto exne = new expressionST_neg;
+    | NOT exp {auto exne = new st_expression_neg;
                exne->exp = expression($2);
                $$ = exne;
                 }
@@ -115,17 +117,30 @@ exp : VALUE {auto exstr = new expressionST_string;
     | exp  OR exp {$$ = makestrop($1,exp::oper::OR,$3);}
     | exp SEQ exp {$$ = makestrop($1,exp::oper::SEQ,$3);}
     | exp SNE exp {$$ = makestrop($1,exp::oper::SNE,$3);}
-    | STRVAR      {auto exvar = new expressionST_variable;
+    | STRVAR      {auto exvar = new st_expression_variable;
                    exvar -> value = *$1;
                    $$ = exvar;
                    delete $1;
                    }
+    | USERFUNC '(' arglist ')' {
+                    auto exuf = new st_expression_userfunc;
+                    exuf->value = *$1;
+                    exuf->args = arg_list($3);
+                    $$ = exuf;
+                    delete $1;
+                }
     ;
-nexp: NUMBER        {auto exnum = new expressionST_number;
+arglist :  arglist2 {$$ = $1;}
+        | {$$ = new std::vector<expression>;}
+        ;
+arglist2 : arglist2 ',' exp {$1->push_back(expression($3)); $$ = $1;}
+         | exp {$$ = new std::vector<expression>; $$->push_back(expression($1));}
+         ;
+nexp: NUMBER        {auto exnum = new st_expression_number;
                      exnum -> value = $1;
                      $$ = exnum;
                     }
-    | '(' exp ')'   {auto excast = new expressionST_num_cast;
+    | '(' exp ')'   {auto excast = new st_expression_num_cast;
                      excast -> exp = expression($2);
                      $$ = excast;
                     }
@@ -141,9 +156,9 @@ nexp: NUMBER        {auto exnum = new expressionST_number;
     | nexp GT nexp  {$$ = makenumop($1,exp::oper::GT, $3);}
     | nexp LE nexp  {$$ = makenumop($1,exp::oper::LE, $3);}
     | nexp LT nexp  {$$ = makenumop($1,exp::oper::LT, $3);}
-    | NUMVAR        {auto exvar = new expressionST_variable;
+    | NUMVAR        {auto exvar = new st_expression_variable;
                      exvar -> value = *$1;
-                     auto excast = new expressionST_num_cast;
+                     auto excast = new st_expression_num_cast;
                      excast -> exp = expression(exvar);
                      $$ = excast;
                      delete $1;
