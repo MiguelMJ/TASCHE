@@ -1,0 +1,8 @@
+{
+"init":"{@amigo=''friend''}",
+"responses":[{
+        "input":"(ab|abc|do)de",
+        "condition":"1",
+        "output":"{time(''%T'')}\nhecho"
+    }]
+}
