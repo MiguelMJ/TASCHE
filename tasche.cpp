@@ -36,10 +36,10 @@
 using namespace cpt;
 using namespace std;
 int main(int argc, char** argv){
-    #ifdef DEBUG
-    ee_yydebug = 1;
-    pp_yydebug = 1;
-    #endif
+//     #ifdef DEBUG
+//     ee_yydebug = 1;
+//     pp_yydebug = 1;
+//     #endif
     bool verbose = false;
     // options
     int argi = 1;
