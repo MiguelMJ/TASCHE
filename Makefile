@@ -19,8 +19,8 @@ FLEX_SRC = $(wildcard src/*flex)
 BISON_SRC = $(wildcard src/*bison)
 
 OBJ = $(CPP_SRC:%.cpp=%.o)\
-      $(FLEX_SRC:%.cpp=%.o)\
-      $(BISON_SRC:%.cpp=%.o)
+      $(addsuffix .o, $(FLEX_SRC))\
+      $(addsuffix .o, $(BISON_SRC))
 DEP = $(OBJ:%.o=%.d)
 
 #
@@ -48,6 +48,23 @@ all: release
 -include $(DBGDEP)
 -include $(RELDEP)
 
+
+#
+# Flex and Bison rules
+#
+%.flex.d: %.cpp
+	$(CPP) $(CFLAGS) $< -MM -MT $(@:.d=.o) >$@
+	@echo '\t$$(CXX) -c $$(CXXFLAGS) $$(RELCFLAGS) -o $$@ $$<' >> $@
+%.bison.d: %.cpp
+	$(CPP) $(CFLAGS) $< -MM -MT $(@:.d=.o) >$@
+	@echo '\t$$(CXX) -c $$(CXXFLAGS) $$(RELCFLAGS) -o $$@ $$<' >> $@
+%.cpp: %.flex
+	$(FLEX) $(FLEXFLAGS) -o $<.cpp $<
+%.cpp: %.bison
+	$(BISON) $(BISONFLAGS) --defines=include/$(notdir $<).hpp -o $<.cpp $<
+#
+# Debug rules
+#
 debug: prep $(DBGEXEC)
 
 $(DBGEXEC): $(DBGOBJ)
@@ -56,7 +73,9 @@ $(DBGEXEC): $(DBGOBJ)
 $(DBGDIR)/%.d: %.cpp
 	$(CPP) $(CFLAGS) $< -MM -MT $(@:.d=.o) > $@
 	@echo '\t$$(CXX) -c $$(CXXFLAGS) $$(DBGCFLAGS) -o $$@ $$<' >> $@
-
+#
+# Release rules
+#
 release: prep $(RELEXEC)
 
 $(RELEXEC): $(RELOBJ)
@@ -66,6 +85,9 @@ $(RELDIR)/%.d: %.cpp
 	$(CPP) $(CFLAGS) $< -MM -MT $(@:.d=.o) >$@
 	@echo '\t$$(CXX) -c $$(CXXFLAGS) $$(RELCFLAGS) -o $$@ $$<' >> $@
 
+#
+# Misc
+#
 prep:	
 	@mkdir -p $(DBGDIR)/src
 	@mkdir -p $(RELDIR)/src
