@@ -27,7 +27,7 @@
 #include <iostream>
 #endif
 #include "expression.hpp"
-#include "expressionparser.hpp"
+#include "expression.bison.hpp"
 #include <sstream>
 using namespace cpt;
 typedef struct yy_buffer_state * YY_BUFFER_STATE;
