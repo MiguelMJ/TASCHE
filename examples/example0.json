@@ -1,0 +1,31 @@
+{
+"init":"Hello!\n",
+"responses":[
+        {
+            "input":"(hello|hi)",
+            "condition":"1",
+            "output":"Hello[there][!]"
+        },{
+            "input":"my name is >.name",
+            "condition":"1",
+            "question":"$name",
+            "responses":[
+                {
+                    "input":"TASCHE",
+                    "condition":"1",
+                    "output":"[No way! ]''That's my name too!''{@known_name = @name}"
+                },{
+                    "input":"$known_name",
+                    "condition":"1",
+                    "output":"I know! Its a (beautiful|cool) name."
+                },{
+                    "condition":"@known_name",
+                    "output":"[([Now ]I am confused, |But )]you said your name was $known_name!"
+                },{
+                    "condition":"1",
+                    "output":"[(Mine|My name|I am) is TASCHE, ]nice to meet you, $name!{@known_name = @name}"
+                }
+            ]
+        }
+    ]
+}
