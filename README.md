@@ -57,14 +57,9 @@ _example0.json_
     ]
 }
 ```
-
-
-
 ### Build TASCHE
 
-TASCHE has no dependencies, but to build it you must have Flex and Bison in your computer.
-
-To build the project use plain make:
+TASCHE has no dependencies, but to build it you must have Flex and Bison in your computer. To build the project use plain make:
 
 ```
 cd /project/path
@@ -81,7 +76,3 @@ make
 - [ ] Module for knowledge bases.
 - [ ] Extend documetation.
 - [ ] Optimize the comparison algorithms (too many substr).
-
-```
-
-```
