@@ -1,6 +1,8 @@
 <img src="logo.jpg" alt="logo" width="350"/>
 
-Text Adventure and Simple CHatbot Engine
+# Text Adventure and Simple CHatbot Engine
+
+![dependencies](https://img.shields.io/badge/dependencies-none-green) [![documentation](https://img.shields.io/badge/documentation-wiki-green)](https://github.com/MiguelMJ/TASCHE/wiki)![GitHub repo size](https://img.shields.io/github/repo-size/MiguelMJ/TASCHE)
 
 ***
 Read [this document in english :gb::us:](README.md)
