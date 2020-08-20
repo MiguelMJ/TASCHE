@@ -35,6 +35,7 @@ extern int yyparse();
 extern YY_BUFFER_STATE yy_scan_string(char * str);
 extern void yy_delete_buffer(YY_BUFFER_STATE buffer);
 pattern parsedPattern;
+std::string prepare(std::string st);
 %}
 %option always-interactive
 %option noyywrap
@@ -85,7 +86,7 @@ std::stringstream token;
      }
 ({NOTRESERVED}(\\.)?)+   {
                 auto aux = new struct st_pattern_plain;
-                aux -> frag = yytext;
+                aux -> frag = prepare(yytext);
                 pp_yylval.paval = aux;
                 return ATOMIC;
                 }
@@ -112,6 +113,15 @@ void pp_set_input_string(const char* in) {
 
 void pp_end_lexical_scan(void) {
   yy_delete_buffer(YY_CURRENT_BUFFER);
+}
+std::string prepare(std::string str){
+    for(auto it = str.begin(); it != str.end(); it++){
+        if(*it == '\\'){
+            it = str.erase(it);
+            it++;
+        }
+    }
+    return str;
 }
 namespace cpt{
     pattern parsePattern(const std::string& str, bool verbose){
