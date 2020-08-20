@@ -2,14 +2,13 @@
 
 # Text Adventure and Simple CHatbot Engine
 
-![dependencies](https://img.shields.io/badge/dependencies-none-green) [![documentation](https://img.shields.io/badge/documentation-wiki-green)](https://github.com/MiguelMJ/TASCHE/wiki)![GitHub repo size](https://img.shields.io/github/repo-size/MiguelMJ/TASCHE)
+![dependencies](https://img.shields.io/badge/dependencies-none-green)  [![documentation](https://img.shields.io/badge/documentation-wiki-green)](https://github.com/MiguelMJ/TASCHE/wiki)  ![GitHub repo size](https://img.shields.io/github/repo-size/MiguelMJ/TASCHE)
 
 ***
 Lee [este documento en español :es:](README_ES.md) 
 
 ### Usage
-For a detailed guide see the [wiki](https://github.com/MiguelMJ/TASCHE/wiki) (soon in English too!)
-
+For a detailed guide see the [wiki](https://github.com/MiguelMJ/TASCHE/wiki) .
 ### Build TASCHE
 
 TASCHE has no dependencies, but to build it you must have Flex and Bison in your computer.
