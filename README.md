@@ -1,4 +1,4 @@
-![TASCHE](logo.jpg)
+<img src="logo.jpg" alt="logo" width="350"/>
 
 Text Adventure and Simple CHatbot Engine
 
