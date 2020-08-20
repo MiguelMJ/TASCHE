@@ -4,7 +4,7 @@
     {
         "input": "where am I[?]",
         "condition": "1",
-        "output": "You're in $location"
+        "output": "You\\'re in $location"
     },{
         "input": "(move|go) to[ the] >new_dir",
         "condition": "1",
@@ -12,7 +12,7 @@
         "responses": [{
                         "input": "$location",
                         "condition": "1",
-                        "output": "You're already in $location"
+                        "output": "You\\'re already in $location"
                     },{
                         "condition": "1",
                         "output": "Moving to $new_dir.{@location = @new_dir}"
@@ -23,6 +23,6 @@
         "output": "Exiting{#_TA_RUNNING_ = 0}"
     },{
         "condition": "1",
-        "output": "I didn't understand that"
+        "output": "I didn\\'t understand that"
     }]
 }
