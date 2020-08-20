@@ -8,9 +8,10 @@
 <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/MiguelMJ/TASCHE">
 </p>
 
-Lee [este documento en español :es:](README_ES.md) 
+[Léeme en español :es:](README_ES.md) 
 
-### Usage
+### Description
+TASCHE is a tool for specifying text-based applications that seeks flexibility in the input recognition and response generation.
 For a detailed guide see the [wiki](https://github.com/MiguelMJ/TASCHE/wiki) .
 ### Build TASCHE
 
