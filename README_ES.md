@@ -1,11 +1,14 @@
-<img src="logo.jpg" alt="logo" width="350"/>
+<p align="center"><img src="logo.jpg" alt="logo" width="350"/></p>
 
-# Text Adventure and Simple CHatbot Engine
+<h1 align="center">Text Adventure and Simple CHatbot Engine</h1>
 
-![dependencies](https://img.shields.io/badge/dependencies-none-green) [![documentation](https://img.shields.io/badge/documentation-wiki-green)](https://github.com/MiguelMJ/TASCHE/wiki)![GitHub repo size](https://img.shields.io/github/repo-size/MiguelMJ/TASCHE)
-
-***
-Read [this document in english :gb::us:](README.md)
+<p align="center">
+<img alt="dependencies" src="https://img.shields.io/badge/dependencies-none-green">
+<a href="https://github.com/MiguelMJ/TASCHE/wiki"><img alt="documentation" src="https://img.shields.io/badge/documentation-wiki-green"></a>
+<a href="LICENSE"><img alt="license" src="https://img.shields.io/badge/license-MIT-green"></a>
+<img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/MiguelMJ/TASCHE">
+</p>
+[Readme in english :gb::us:](README.md)
 
 ### Uso
 Para una guía detallada de uso, ver la [wiki](https://github.com/MiguelMJ/TASCHE/wiki)
