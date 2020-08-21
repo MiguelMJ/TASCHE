@@ -28,43 +28,36 @@ _example0.json_
 {
 "init":"Hello!\n",
 "responses":[
-        {
-            "input":"(hello|hi)",
-            "condition":"1",
-            "output":"Hello[ there][!]"
-        },{
-            "input":"my name is >name",
-            "condition":"1",
-            "question":"$name",
-            "responses":[
-                {
-                    "input":"TASCHE",
-                    "condition":"1",
-                    "output":"[No way! ]''That's my name too!''{@known_name = @name}"
-                },{
-                    "input":"$known_name",
-                    "condition":"1",
-                    "output":"I know! Its a (beautiful|cool) name."
-                },{
-                    "condition":"@known_name",
-                    "output":"[([Now ]I am confused, |But )]you said your name was $known_name!"
-                },{
-                    "condition":"1",
-                    "output":"[(Mine|My name|I am) is TASCHE, ]nice to meet you, $name!{@known_name = @name}"
-                }
-            ]
-        }
-    ]
+    {
+        "input":"(hello|hi)",
+        "condition":"1",
+        "output":"Hello[ there][!]"
+    },{
+        "input":"my name is >name",
+        "condition":"1",
+        "question":"$name",
+        "responses":[
+            {
+                "input":"TASCHE",
+                "condition":"1",
+                "output":"[No way! ]''That's my name too!''{@known_name = @name}"
+            },{
+                "input":"$known_name",
+                "condition":"1",
+                "output":"I know! Its a (beautiful|cool) name."
+            },{
+                "condition":"@known_name",
+                "output":"[([Now ]I am confused, |But )]you said your name was $known_name!"
+            },{
+                "condition":"1",
+                "output":"[(Mine|My name|I am) is TASCHE, ]nice to meet you, $name!{@known_name = @name}"
+            }]
+    }]
 }
 ```
-
-
-
 ### Build TASCHE
 
-TASCHE has no dependencies, but to build it you must have Flex and Bison in your computer.
-
-To build the project use plain make:
+TASCHE has no dependencies, but to build it you must have Flex and Bison in your computer. To build the project use plain make:
 
 ```
 cd /project/path
@@ -81,7 +74,3 @@ make
 - [ ] Module for knowledge bases.
 - [ ] Extend documetation.
 - [ ] Optimize the comparison algorithms (too many substr).
-
-```
-
-```
